@@ -6,17 +6,78 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXFileReference section */
-		CC7899CE2E3E10C20068B48D /* HomeWork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeWork.app; sourceTree = BUILT_PRODUCTS_DIR; };
-/* End PBXFileReference section */
+/* Begin PBXBuildFile section */
+		CC2B927B2E40B35F0082D836 /* HWNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2B927A2E40B3570082D836 /* HWNotification.swift */; };
+		CC789A402E3E29610068B48D /* HWToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A2B2E3E29610068B48D /* HWToolBar.swift */; };
+		CC789A412E3E29610068B48D /* HWHomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A312E3E29610068B48D /* HWHomeCoordinator.swift */; };
+		CC789A422E3E29610068B48D /* HWHomeCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A322E3E29610068B48D /* HWHomeCoordinatorView.swift */; };
+		CC789A442E3E29610068B48D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A3C2E3E29610068B48D /* ContentView.swift */; };
+		CC789A452E3E29610068B48D /* HomeWorkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A3D2E3E29610068B48D /* HomeWorkApp.swift */; };
+		CC789A462E3E29610068B48D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC789A3A2E3E29610068B48D /* Assets.xcassets */; };
+		CC789A482E3E2B850068B48D /* HWHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A472E3E2B810068B48D /* HWHomeViewModel.swift */; };
+		CC789A4A2E3E2D1A0068B48D /* HWNotificationCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A492E3E2D1A0068B48D /* HWNotificationCoordinatorView.swift */; };
+		CC789A4C2E3E2D330068B48D /* HWNotificationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A4B2E3E2D330068B48D /* HWNotificationCoordinator.swift */; };
+		CC789A4E2E3E2DA60068B48D /* HWNavigationCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A4D2E3E2DA20068B48D /* HWNavigationCoordinatorProtocol.swift */; };
+		CC789A502E3E2F6A0068B48D /* HWNotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A4F2E3E2F6A0068B48D /* HWNotificationsView.swift */; };
+		CC789A522E3E2F870068B48D /* HWNotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A512E3E2F840068B48D /* HWNotificationsViewModel.swift */; };
+		CC789A542E3E30BD0068B48D /* HWNotificationRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A532E3E30BD0068B48D /* HWNotificationRowView.swift */; };
+		CC789A582E3E35640068B48D /* HWScrollOffsetPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A572E3E35600068B48D /* HWScrollOffsetPreferenceKey.swift */; };
+		CC80D0072E3F365F0096268D /* HWHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D0062E3F365F0096268D /* HWHomeView.swift */; };
+		CC80D00E2E3F46D60096268D /* HWUserProfileCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D00D2E3F46D60096268D /* HWUserProfileCoordinatorView.swift */; };
+		CC80D0102E3F48190096268D /* HWLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D00F2E3F48160096268D /* HWLog.swift */; };
+		CC80D0122E3F4B600096268D /* HWUserProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D0112E3F4B5E0096268D /* HWUserProfileCoordinator.swift */; };
+		CC80D0142E3F53E80096268D /* HWNotificationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D0132E3F53E80096268D /* HWNotificationDetailView.swift */; };
+		CC80D0162E3F5FE80096268D /* HWServiceIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D0152E3F5FE80096268D /* HWServiceIconView.swift */; };
+		CC80D0B92E3F71CA0096268D /* HWFavoriteIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D0B82E3F71CA0096268D /* HWFavoriteIconView.swift */; };
+		CC80D0BB2E3F72B30096268D /* HWHomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D0BA2E3F72AE0096268D /* HWHomeModel.swift */; };
+		CC80D1342E3FC78C0096268D /* HWNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D1332E3FC7880096268D /* HWNetworkManager.swift */; };
+		CC80D1362E3FC8430096268D /* HWEndpointModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D1352E3FC83F0096268D /* HWEndpointModel.swift */; };
+		CC80D1A92E3FCD320096268D /* HWImageSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D1A82E3FCD320096268D /* HWImageSliderView.swift */; };
+		CC80D1AB2E3FCF0B0096268D /* HWAPIBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D1AA2E3FCF070096268D /* HWAPIBaseModel.swift */; };
+		CC80D1AD2E3FCF3B0096268D /* HWError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D1AC2E3FCF330096268D /* HWError.swift */; };
+		CC80D1B02E3FD1180096268D /* HWFavorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D1AF2E3FD1180096268D /* HWFavorite.swift */; };
+		CC80D1B22E3FD1EB0096268D /* HWBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D1B12E3FD1EB0096268D /* HWBanner.swift */; };
+		CC80D1B42E3FD68D0096268D /* HWTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D1B32E3FD68D0096268D /* HWTabBar.swift */; };
+		CCBCE3D22E423CB10098D57A /* HWEndpointModel+EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCBCE3D12E423CB00098D57A /* HWEndpointModel+EndPoint.swift */; };
+		CCD8FE732E41DD2D009E3F0C /* HWSkimmerEffectBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD8FE722E41DD2D009E3F0C /* HWSkimmerEffectBox.swift */; };
+/* End PBXBuildFile section */
 
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		CC7899D02E3E10C20068B48D /* HomeWork */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = HomeWork;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
+/* Begin PBXFileReference section */
+		CC2B927A2E40B3570082D836 /* HWNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWNotification.swift; sourceTree = "<group>"; };
+		CC7899CE2E3E10C20068B48D /* HomeWork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeWork.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC789A2B2E3E29610068B48D /* HWToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWToolBar.swift; sourceTree = "<group>"; };
+		CC789A312E3E29610068B48D /* HWHomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWHomeCoordinator.swift; sourceTree = "<group>"; };
+		CC789A322E3E29610068B48D /* HWHomeCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWHomeCoordinatorView.swift; sourceTree = "<group>"; };
+		CC789A3A2E3E29610068B48D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CC789A3C2E3E29610068B48D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		CC789A3D2E3E29610068B48D /* HomeWorkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorkApp.swift; sourceTree = "<group>"; };
+		CC789A472E3E2B810068B48D /* HWHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWHomeViewModel.swift; sourceTree = "<group>"; };
+		CC789A492E3E2D1A0068B48D /* HWNotificationCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWNotificationCoordinatorView.swift; sourceTree = "<group>"; };
+		CC789A4B2E3E2D330068B48D /* HWNotificationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWNotificationCoordinator.swift; sourceTree = "<group>"; };
+		CC789A4D2E3E2DA20068B48D /* HWNavigationCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWNavigationCoordinatorProtocol.swift; sourceTree = "<group>"; };
+		CC789A4F2E3E2F6A0068B48D /* HWNotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWNotificationsView.swift; sourceTree = "<group>"; };
+		CC789A512E3E2F840068B48D /* HWNotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWNotificationsViewModel.swift; sourceTree = "<group>"; };
+		CC789A532E3E30BD0068B48D /* HWNotificationRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWNotificationRowView.swift; sourceTree = "<group>"; };
+		CC789A572E3E35600068B48D /* HWScrollOffsetPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWScrollOffsetPreferenceKey.swift; sourceTree = "<group>"; };
+		CC80D0062E3F365F0096268D /* HWHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWHomeView.swift; sourceTree = "<group>"; };
+		CC80D00D2E3F46D60096268D /* HWUserProfileCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWUserProfileCoordinatorView.swift; sourceTree = "<group>"; };
+		CC80D00F2E3F48160096268D /* HWLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWLog.swift; sourceTree = "<group>"; };
+		CC80D0112E3F4B5E0096268D /* HWUserProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWUserProfileCoordinator.swift; sourceTree = "<group>"; };
+		CC80D0132E3F53E80096268D /* HWNotificationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWNotificationDetailView.swift; sourceTree = "<group>"; };
+		CC80D0152E3F5FE80096268D /* HWServiceIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWServiceIconView.swift; sourceTree = "<group>"; };
+		CC80D0B82E3F71CA0096268D /* HWFavoriteIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWFavoriteIconView.swift; sourceTree = "<group>"; };
+		CC80D0BA2E3F72AE0096268D /* HWHomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWHomeModel.swift; sourceTree = "<group>"; };
+		CC80D1332E3FC7880096268D /* HWNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWNetworkManager.swift; sourceTree = "<group>"; };
+		CC80D1352E3FC83F0096268D /* HWEndpointModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWEndpointModel.swift; sourceTree = "<group>"; };
+		CC80D1A82E3FCD320096268D /* HWImageSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWImageSliderView.swift; sourceTree = "<group>"; };
+		CC80D1AA2E3FCF070096268D /* HWAPIBaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWAPIBaseModel.swift; sourceTree = "<group>"; };
+		CC80D1AC2E3FCF330096268D /* HWError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWError.swift; sourceTree = "<group>"; };
+		CC80D1AF2E3FD1180096268D /* HWFavorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWFavorite.swift; sourceTree = "<group>"; };
+		CC80D1B12E3FD1EB0096268D /* HWBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWBanner.swift; sourceTree = "<group>"; };
+		CC80D1B32E3FD68D0096268D /* HWTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWTabBar.swift; sourceTree = "<group>"; };
+		CCBCE3D12E423CB00098D57A /* HWEndpointModel+EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HWEndpointModel+EndPoint.swift"; sourceTree = "<group>"; };
+		CCD8FE722E41DD2D009E3F0C /* HWSkimmerEffectBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWSkimmerEffectBox.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		CC7899CB2E3E10C20068B48D /* Frameworks */ = {
@@ -32,7 +93,7 @@
 		CC7899C52E3E10C20068B48D = {
 			isa = PBXGroup;
 			children = (
-				CC7899D02E3E10C20068B48D /* HomeWork */,
+				CC789A3E2E3E29610068B48D /* HomeWork */,
 				CC7899CF2E3E10C20068B48D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +104,262 @@
 				CC7899CE2E3E10C20068B48D /* HomeWork.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CC789A1D2E3E29610068B48D /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				CC2B927A2E40B3570082D836 /* HWNotification.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		CC789A1E2E3E29610068B48D /* APIBody */ = {
+			isa = PBXGroup;
+			children = (
+				CC80D1AE2E3FD10F0096268D /* Home */,
+				CC789A1D2E3E29610068B48D /* Notification */,
+			);
+			path = APIBody;
+			sourceTree = "<group>";
+		};
+		CC789A202E3E29610068B48D /* APIModel */ = {
+			isa = PBXGroup;
+			children = (
+				CCBCE3D12E423CB00098D57A /* HWEndpointModel+EndPoint.swift */,
+				CC80D1AA2E3FCF070096268D /* HWAPIBaseModel.swift */,
+				CC80D1352E3FC83F0096268D /* HWEndpointModel.swift */,
+				CC789A1E2E3E29610068B48D /* APIBody */,
+			);
+			path = APIModel;
+			sourceTree = "<group>";
+		};
+		CC789A212E3E29610068B48D /* Component */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		CC789A222E3E29610068B48D /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				CC80D1AC2E3FCF330096268D /* HWError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		CC789A252E3E29610068B48D /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				CC80D1332E3FC7880096268D /* HWNetworkManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		CC789A272E3E29610068B48D /* PreferenceKey */ = {
+			isa = PBXGroup;
+			children = (
+				CC789A572E3E35600068B48D /* HWScrollOffsetPreferenceKey.swift */,
+			);
+			path = PreferenceKey;
+			sourceTree = "<group>";
+		};
+		CC789A282E3E29610068B48D /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				CC80D00F2E3F48160096268D /* HWLog.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		CC789A292E3E29610068B48D /* ViewModifier */ = {
+			isa = PBXGroup;
+			children = (
+				CCD8FE722E41DD2D009E3F0C /* HWSkimmerEffectBox.swift */,
+			);
+			path = ViewModifier;
+			sourceTree = "<group>";
+		};
+		CC789A2A2E3E29610068B48D /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				CC789A202E3E29610068B48D /* APIModel */,
+				CC789A212E3E29610068B48D /* Component */,
+				CC789A222E3E29610068B48D /* Error */,
+				CC789A252E3E29610068B48D /* Manager */,
+				CC789A272E3E29610068B48D /* PreferenceKey */,
+				CC789A282E3E29610068B48D /* Utility */,
+				CC789A292E3E29610068B48D /* ViewModifier */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		CC789A2C2E3E29610068B48D /* ChildView */ = {
+			isa = PBXGroup;
+			children = (
+				CC789A2B2E3E29610068B48D /* HWToolBar.swift */,
+				CC80D0152E3F5FE80096268D /* HWServiceIconView.swift */,
+				CC80D0B82E3F71CA0096268D /* HWFavoriteIconView.swift */,
+				CC80D1A82E3FCD320096268D /* HWImageSliderView.swift */,
+				CC80D1B32E3FD68D0096268D /* HWTabBar.swift */,
+			);
+			path = ChildView;
+			sourceTree = "<group>";
+		};
+		CC789A2E2E3E29610068B48D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CC80D0BA2E3F72AE0096268D /* HWHomeModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CC789A2F2E3E29610068B48D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CC789A472E3E2B810068B48D /* HWHomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		CC789A302E3E29610068B48D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CC80D0062E3F365F0096268D /* HWHomeView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CC789A332E3E29610068B48D /* HWHome */ = {
+			isa = PBXGroup;
+			children = (
+				CC789A322E3E29610068B48D /* HWHomeCoordinatorView.swift */,
+				CC789A312E3E29610068B48D /* HWHomeCoordinator.swift */,
+				CC789A2C2E3E29610068B48D /* ChildView */,
+				CC789A2E2E3E29610068B48D /* Model */,
+				CC789A2F2E3E29610068B48D /* ViewModel */,
+				CC789A302E3E29610068B48D /* Views */,
+			);
+			path = HWHome;
+			sourceTree = "<group>";
+		};
+		CC789A352E3E29610068B48D /* ChildView */ = {
+			isa = PBXGroup;
+			children = (
+				CC789A532E3E30BD0068B48D /* HWNotificationRowView.swift */,
+			);
+			path = ChildView;
+			sourceTree = "<group>";
+		};
+		CC789A362E3E29610068B48D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CC789A372E3E29610068B48D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CC789A512E3E2F840068B48D /* HWNotificationsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		CC789A382E3E29610068B48D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CC789A4F2E3E2F6A0068B48D /* HWNotificationsView.swift */,
+				CC80D0132E3F53E80096268D /* HWNotificationDetailView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CC789A392E3E29610068B48D /* HWNotification */ = {
+			isa = PBXGroup;
+			children = (
+				CC789A492E3E2D1A0068B48D /* HWNotificationCoordinatorView.swift */,
+				CC789A4B2E3E2D330068B48D /* HWNotificationCoordinator.swift */,
+				CC789A352E3E29610068B48D /* ChildView */,
+				CC789A372E3E29610068B48D /* ViewModel */,
+				CC789A382E3E29610068B48D /* Views */,
+				CC789A362E3E29610068B48D /* Model */,
+			);
+			path = HWNotification;
+			sourceTree = "<group>";
+		};
+		CC789A3B2E3E29610068B48D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CC789A3A2E3E29610068B48D /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		CC789A3E2E3E29610068B48D /* HomeWork */ = {
+			isa = PBXGroup;
+			children = (
+				CC789A4D2E3E2DA20068B48D /* HWNavigationCoordinatorProtocol.swift */,
+				CC789A3D2E3E29610068B48D /* HomeWorkApp.swift */,
+				CC789A3C2E3E29610068B48D /* ContentView.swift */,
+				CC789A332E3E29610068B48D /* HWHome */,
+				CC789A392E3E29610068B48D /* HWNotification */,
+				CC80D0082E3F467A0096268D /* HWUserProfile */,
+				CC789A2A2E3E29610068B48D /* Common */,
+				CC789A3B2E3E29610068B48D /* Resources */,
+			);
+			path = HomeWork;
+			sourceTree = "<group>";
+		};
+		CC80D0082E3F467A0096268D /* HWUserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				CC80D00D2E3F46D60096268D /* HWUserProfileCoordinatorView.swift */,
+				CC80D0112E3F4B5E0096268D /* HWUserProfileCoordinator.swift */,
+				CC80D00C2E3F46AB0096268D /* ChildView */,
+				CC80D00B2E3F469F0096268D /* Model */,
+				CC80D00A2E3F46960096268D /* ViewModel */,
+				CC80D0092E3F468D0096268D /* Views */,
+			);
+			path = HWUserProfile;
+			sourceTree = "<group>";
+		};
+		CC80D0092E3F468D0096268D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CC80D00A2E3F46960096268D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		CC80D00B2E3F469F0096268D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CC80D00C2E3F46AB0096268D /* ChildView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ChildView;
+			sourceTree = "<group>";
+		};
+		CC80D1AE2E3FD10F0096268D /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				CC80D1B12E3FD1EB0096268D /* HWBanner.swift */,
+				CC80D1AF2E3FD1180096268D /* HWFavorite.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -59,9 +376,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				CC7899D02E3E10C20068B48D /* HomeWork */,
 			);
 			name = HomeWork;
 			packageProductDependencies = (
@@ -109,6 +423,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC789A462E3E29610068B48D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +434,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC789A482E3E2B850068B48D /* HWHomeViewModel.swift in Sources */,
+				CC789A502E3E2F6A0068B48D /* HWNotificationsView.swift in Sources */,
+				CC789A402E3E29610068B48D /* HWToolBar.swift in Sources */,
+				CC789A4C2E3E2D330068B48D /* HWNotificationCoordinator.swift in Sources */,
+				CC80D0162E3F5FE80096268D /* HWServiceIconView.swift in Sources */,
+				CC789A582E3E35640068B48D /* HWScrollOffsetPreferenceKey.swift in Sources */,
+				CC80D0142E3F53E80096268D /* HWNotificationDetailView.swift in Sources */,
+				CC80D0102E3F48190096268D /* HWLog.swift in Sources */,
+				CC80D1B22E3FD1EB0096268D /* HWBanner.swift in Sources */,
+				CC80D1B02E3FD1180096268D /* HWFavorite.swift in Sources */,
+				CC80D1362E3FC8430096268D /* HWEndpointModel.swift in Sources */,
+				CC789A4A2E3E2D1A0068B48D /* HWNotificationCoordinatorView.swift in Sources */,
+				CC789A522E3E2F870068B48D /* HWNotificationsViewModel.swift in Sources */,
+				CCBCE3D22E423CB10098D57A /* HWEndpointModel+EndPoint.swift in Sources */,
+				CC80D0B92E3F71CA0096268D /* HWFavoriteIconView.swift in Sources */,
+				CC80D1AD2E3FCF3B0096268D /* HWError.swift in Sources */,
+				CC789A4E2E3E2DA60068B48D /* HWNavigationCoordinatorProtocol.swift in Sources */,
+				CC80D0122E3F4B600096268D /* HWUserProfileCoordinator.swift in Sources */,
+				CC80D1B42E3FD68D0096268D /* HWTabBar.swift in Sources */,
+				CC789A412E3E29610068B48D /* HWHomeCoordinator.swift in Sources */,
+				CC789A422E3E29610068B48D /* HWHomeCoordinatorView.swift in Sources */,
+				CC80D1342E3FC78C0096268D /* HWNetworkManager.swift in Sources */,
+				CC80D1AB2E3FCF0B0096268D /* HWAPIBaseModel.swift in Sources */,
+				CC80D0072E3F365F0096268D /* HWHomeView.swift in Sources */,
+				CC789A442E3E29610068B48D /* ContentView.swift in Sources */,
+				CC80D00E2E3F46D60096268D /* HWUserProfileCoordinatorView.swift in Sources */,
+				CC80D0BB2E3F72B30096268D /* HWHomeModel.swift in Sources */,
+				CCD8FE732E41DD2D009E3F0C /* HWSkimmerEffectBox.swift in Sources */,
+				CC80D1A92E3FCD320096268D /* HWImageSliderView.swift in Sources */,
+				CC789A452E3E29610068B48D /* HomeWorkApp.swift in Sources */,
+				CC789A542E3E30BD0068B48D /* HWNotificationRowView.swift in Sources */,
+				CC2B927B2E40B35F0082D836 /* HWNotification.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +608,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -289,6 +637,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
