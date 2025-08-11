@@ -12,7 +12,6 @@ struct HWServiceItems {
     let title: String
 }
 
-
 struct HWServiceIconView: View {
     
     var serviceItem: HWServiceItems

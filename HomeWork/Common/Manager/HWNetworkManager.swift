@@ -8,24 +8,52 @@
 import Foundation
 import Combine
 
+// MARK: - HTTP Method Enum HTTP
 enum HWHttpMethod: String {
     case get = "GET"
     case post = "POST"
 }
 
+// MARK: - Network Manager
 class HWNetworkManager: NSObject, URLSessionDelegate {
     
+    /// Shared instance of the network manager
     static let shared = HWNetworkManager()
     
     private override init() { }
     
+    /// Set of cancellables for Combine
     private var cancellables = Set<AnyCancellable>()
     
+    /// Add a cancellable to the set
+    /// 添加 cancellable 到集合
+    func addCancellable(cancellable: AnyCancellable) {
+        cancellable.store(in: &self.cancellables)
+    }
+    
+    /// Cancel all requests
+    /// 取消所有請求
+    func cancelAllRequests() {
+        self.cancellables.forEach {
+            $0.cancel()
+        }
+        self.cancellables.removeAll()
+    }
+    
+    /// Perform network request and return decoded response as a Combine publisher
+    /// - Parameters:
+    ///   - endpoint: API endpoint model API端點模型
+    ///   - httpMethod: HTTP request method (POST or GET) HTTP請求方法
+    ///   - httpBodyDict: Request body dictionary 請求主體字典
+    ///   - verifyData: Optional verification data 附加驗證資料
+    ///   - otherHttpHeader: Optional additional HTTP headers 額外HTTP標頭
+    ///   - model: Decodable type for response decoding 回應解碼的Decodable型別
+    /// - Returns: A publisher emitting decoded API response or error
     func fetchRequest<T: Decodable>(
         endpoint: HWEndpointModel,
         httpMethod: HWHttpMethod = .get,
         httpBodyDict: [String: Any]? = nil,
-        verifyData: [String: Any]? = nil, // Not used for now
+        verifyData: [String: Any]? = nil,
         otherHttpHeader: [String: String]? = nil,
         model: T.Type
     ) -> AnyPublisher<HWAPIBaseModel<T>, HWError> {

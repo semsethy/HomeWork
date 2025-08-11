@@ -19,7 +19,7 @@ struct HWToolBar: View {
     
     var useRefreshData: Bool = false
     
-    var hasNotification: Bool = false
+    @Binding var hasNotification: Bool
     
     // MARK: - Body
     var body: some View {
@@ -46,6 +46,7 @@ struct HWToolBar: View {
             /// Trailing button for toolbar ( notification.)
             Button(action: {
                 self.onNotificationAction?()
+                self.hasNotification = false
             }) {
                 ZStack(alignment: .topTrailing) {
                     Image(systemName: "bell")
@@ -58,6 +59,7 @@ struct HWToolBar: View {
                             .frame(width: 8, height: 8)
                             .offset(x: -3, y: 3)
                     }
+                    
                 }
             }
         }
@@ -68,5 +70,5 @@ struct HWToolBar: View {
 
 //MARK: - Preview
 #Preview {
-    HWToolBar()
+    HWToolBar(hasNotification: .constant(false))
 }

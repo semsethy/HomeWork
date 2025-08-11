@@ -1,13 +1,13 @@
 //
-//  MCShimmerEffectViewModifier.swift
-//  khmc_ios
+//  HWSkimmerEffectBoxView.swift
+//  HomeWork
 //
-//  Created by Hsu on 2024/10/29.
+//  Created by JoshipTy on 9/8/25.
 //
 
 import SwiftUI
 
-struct SkimmerEffectBox: View {
+struct HWSkimmerEffectBoxView: View {
     private var gradientColor = [
         Color(uiColor: UIColor.systemGray5),
         Color(uiColor: UIColor.systemGray6),

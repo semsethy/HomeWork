@@ -14,11 +14,11 @@ struct HWHomeView: View {
     
     @StateObject private var viewModel = HWHomeViewModel()
     
-    @StateObject private var notificationViewModel = HWNotificationsViewModel.shared
-    
     @State private var showTotalAmount: Bool = false
     
     @State private var isLoading: Bool = false
+    
+    @State private var hasNotification: Bool = false
     
     @State private var favoriteItems: [String] = []
      
@@ -54,8 +54,8 @@ struct HWHomeView: View {
                 HWToolBar(onUserProfileAction: {
                     self.homeCoordinator.push(.userProfileView(path: self.$homeCoordinator.path))
                 }, onNotificationAction: {
-                    self.homeCoordinator.push(.notificationsView(path: self.$homeCoordinator.path))
-                }, hasNotification: notificationViewModel.hasNotification)
+                    self.homeCoordinator.push(.notificationsView(notificationList: self.$homeCoordinator.notificationArray, isRefresh: self.$homeCoordinator.isRefresh, path: self.$homeCoordinator.path))
+                }, hasNotification: $hasNotification)
                 
                 VStack(spacing: 4) {
                     ScrollView {
@@ -83,7 +83,7 @@ struct HWHomeView: View {
                                     .multilineTextAlignment(.trailing)
                                 
                                 if !showContent {
-                                    SkimmerEffectBox()
+                                    HWSkimmerEffectBoxView()
                                         .frame(height: 30)
                                         .cornerRadius(4)
                                 } else {
@@ -100,7 +100,7 @@ struct HWHomeView: View {
                                     .multilineTextAlignment(.trailing)
                                 
                                 if !showContent {
-                                    SkimmerEffectBox()
+                                    HWSkimmerEffectBoxView()
                                         .frame(height: 30)
                                         .cornerRadius(4)
                                 } else {
@@ -139,12 +139,12 @@ struct HWHomeView: View {
                             }
                              
                             if !showContent {
-                                SkimmerEffectBox()
+                                HWSkimmerEffectBoxView()
                                     .frame(height: 100)
                                     .cornerRadius(10)
                             }
                             else if viewModel.isFavoriteEmpty {
-                                self.loadingFavoriteSection
+                                self.emptyFavoriteSection
                                     .cornerRadius(10)
                             } else {
                                 // MARK: - Horizontal scrollable favorite list
@@ -158,7 +158,7 @@ struct HWHomeView: View {
                                 }
                             }
                             if !showContent {
-                                SkimmerEffectBox()
+                                HWSkimmerEffectBoxView()
                                     .frame(height: 100)
                                     .cornerRadius(10)
                             } else {
@@ -169,14 +169,12 @@ struct HWHomeView: View {
                         .padding(.bottom, 44)
                     }
                     .refreshable {
-                        viewModel.useRefreshData = true
-                        notificationViewModel.useRefreshData = true
+                        viewModel.isRefresh = true
+                        homeCoordinator.isRefresh = true
                         await viewModel.fetchFavoriteList()
                         await viewModel.fetchBanners()
                         await viewModel.fetchSumAccountsCurrency()
-                        await notificationViewModel.fetchNonEmptyNotification()
-                        // Reset after fetch
-                        notificationViewModel.hasNotification = true
+                        self.hasNotification = true
                     }
                 }
             }
@@ -190,7 +188,6 @@ struct HWHomeView: View {
                 await viewModel.fetchFavoriteList()
                 await viewModel.fetchBanners()
                 await viewModel.fetchSumAccountsCurrency()
-                await notificationViewModel.fetchNonEmptyNotification()
             }
         }
     }
@@ -204,8 +201,8 @@ struct HWHomeView: View {
         }
     }
     
-    /// Loading favorite view
-    private var loadingFavoriteSection: some View {
+    /// Empty favorite view
+    private var emptyFavoriteSection: some View {
         ZStack {
             Rectangle()
                 .fill(Color.gray200).opacity(0.4)

@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC185DC82E48B50A001287D3 /* HWAccountBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC185DC72E48B503001287D3 /* HWAccountBalance.swift */; };
 		CC2B927B2E40B35F0082D836 /* HWNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2B927A2E40B3570082D836 /* HWNotification.swift */; };
+		CC5DB3222E472DA00012018B /* HWSkimmerEffectBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5DB3212E472DA00012018B /* HWSkimmerEffectBoxView.swift */; };
+		CC5DB4342E47707E0012018B /* ColorAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC5DB4332E47707E0012018B /* ColorAssets.xcassets */; };
 		CC789A402E3E29610068B48D /* HWToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A2B2E3E29610068B48D /* HWToolBar.swift */; };
 		CC789A412E3E29610068B48D /* HWHomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A312E3E29610068B48D /* HWHomeCoordinator.swift */; };
 		CC789A422E3E29610068B48D /* HWHomeCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A322E3E29610068B48D /* HWHomeCoordinatorView.swift */; };
@@ -39,11 +42,13 @@
 		CC80D1B22E3FD1EB0096268D /* HWBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D1B12E3FD1EB0096268D /* HWBanner.swift */; };
 		CC80D1B42E3FD68D0096268D /* HWTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D1B32E3FD68D0096268D /* HWTabBar.swift */; };
 		CCBCE3D22E423CB10098D57A /* HWEndpointModel+EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCBCE3D12E423CB00098D57A /* HWEndpointModel+EndPoint.swift */; };
-		CCD8FE732E41DD2D009E3F0C /* HWSkimmerEffectBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD8FE722E41DD2D009E3F0C /* HWSkimmerEffectBox.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CC185DC72E48B503001287D3 /* HWAccountBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWAccountBalance.swift; sourceTree = "<group>"; };
 		CC2B927A2E40B3570082D836 /* HWNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWNotification.swift; sourceTree = "<group>"; };
+		CC5DB3212E472DA00012018B /* HWSkimmerEffectBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWSkimmerEffectBoxView.swift; sourceTree = "<group>"; };
+		CC5DB4332E47707E0012018B /* ColorAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ColorAssets.xcassets; sourceTree = "<group>"; };
 		CC7899CE2E3E10C20068B48D /* HomeWork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeWork.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC789A2B2E3E29610068B48D /* HWToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWToolBar.swift; sourceTree = "<group>"; };
 		CC789A312E3E29610068B48D /* HWHomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWHomeCoordinator.swift; sourceTree = "<group>"; };
@@ -76,7 +81,6 @@
 		CC80D1B12E3FD1EB0096268D /* HWBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWBanner.swift; sourceTree = "<group>"; };
 		CC80D1B32E3FD68D0096268D /* HWTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWTabBar.swift; sourceTree = "<group>"; };
 		CCBCE3D12E423CB00098D57A /* HWEndpointModel+EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HWEndpointModel+EndPoint.swift"; sourceTree = "<group>"; };
-		CCD8FE722E41DD2D009E3F0C /* HWSkimmerEffectBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWSkimmerEffectBox.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,7 +180,7 @@
 		CC789A292E3E29610068B48D /* ViewModifier */ = {
 			isa = PBXGroup;
 			children = (
-				CCD8FE722E41DD2D009E3F0C /* HWSkimmerEffectBox.swift */,
+				CC5DB3212E472DA00012018B /* HWSkimmerEffectBoxView.swift */,
 			);
 			path = ViewModifier;
 			sourceTree = "<group>";
@@ -223,12 +227,12 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		CC789A302E3E29610068B48D /* Views */ = {
+		CC789A302E3E29610068B48D /* View */ = {
 			isa = PBXGroup;
 			children = (
 				CC80D0062E3F365F0096268D /* HWHomeView.swift */,
 			);
-			path = Views;
+			path = View;
 			sourceTree = "<group>";
 		};
 		CC789A332E3E29610068B48D /* HWHome */ = {
@@ -239,7 +243,7 @@
 				CC789A2C2E3E29610068B48D /* ChildView */,
 				CC789A2E2E3E29610068B48D /* Model */,
 				CC789A2F2E3E29610068B48D /* ViewModel */,
-				CC789A302E3E29610068B48D /* Views */,
+				CC789A302E3E29610068B48D /* View */,
 			);
 			path = HWHome;
 			sourceTree = "<group>";
@@ -267,13 +271,13 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		CC789A382E3E29610068B48D /* Views */ = {
+		CC789A382E3E29610068B48D /* View */ = {
 			isa = PBXGroup;
 			children = (
 				CC789A4F2E3E2F6A0068B48D /* HWNotificationsView.swift */,
 				CC80D0132E3F53E80096268D /* HWNotificationDetailView.swift */,
 			);
-			path = Views;
+			path = View;
 			sourceTree = "<group>";
 		};
 		CC789A392E3E29610068B48D /* HWNotification */ = {
@@ -283,7 +287,7 @@
 				CC789A4B2E3E2D330068B48D /* HWNotificationCoordinator.swift */,
 				CC789A352E3E29610068B48D /* ChildView */,
 				CC789A372E3E29610068B48D /* ViewModel */,
-				CC789A382E3E29610068B48D /* Views */,
+				CC789A382E3E29610068B48D /* View */,
 				CC789A362E3E29610068B48D /* Model */,
 			);
 			path = HWNotification;
@@ -293,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				CC789A3A2E3E29610068B48D /* Assets.xcassets */,
+				CC5DB4332E47707E0012018B /* ColorAssets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -320,16 +325,16 @@
 				CC80D00C2E3F46AB0096268D /* ChildView */,
 				CC80D00B2E3F469F0096268D /* Model */,
 				CC80D00A2E3F46960096268D /* ViewModel */,
-				CC80D0092E3F468D0096268D /* Views */,
+				CC80D0092E3F468D0096268D /* View */,
 			);
 			path = HWUserProfile;
 			sourceTree = "<group>";
 		};
-		CC80D0092E3F468D0096268D /* Views */ = {
+		CC80D0092E3F468D0096268D /* View */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = Views;
+			path = View;
 			sourceTree = "<group>";
 		};
 		CC80D00A2E3F46960096268D /* ViewModel */ = {
@@ -356,6 +361,7 @@
 		CC80D1AE2E3FD10F0096268D /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				CC185DC72E48B503001287D3 /* HWAccountBalance.swift */,
 				CC80D1B12E3FD1EB0096268D /* HWBanner.swift */,
 				CC80D1AF2E3FD1180096268D /* HWFavorite.swift */,
 			);
@@ -423,6 +429,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC5DB4342E47707E0012018B /* ColorAssets.xcassets in Resources */,
 				CC789A462E3E29610068B48D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -445,6 +452,7 @@
 				CC80D1B22E3FD1EB0096268D /* HWBanner.swift in Sources */,
 				CC80D1B02E3FD1180096268D /* HWFavorite.swift in Sources */,
 				CC80D1362E3FC8430096268D /* HWEndpointModel.swift in Sources */,
+				CC185DC82E48B50A001287D3 /* HWAccountBalance.swift in Sources */,
 				CC789A4A2E3E2D1A0068B48D /* HWNotificationCoordinatorView.swift in Sources */,
 				CC789A522E3E2F870068B48D /* HWNotificationsViewModel.swift in Sources */,
 				CCBCE3D22E423CB10098D57A /* HWEndpointModel+EndPoint.swift in Sources */,
@@ -461,11 +469,11 @@
 				CC789A442E3E29610068B48D /* ContentView.swift in Sources */,
 				CC80D00E2E3F46D60096268D /* HWUserProfileCoordinatorView.swift in Sources */,
 				CC80D0BB2E3F72B30096268D /* HWHomeModel.swift in Sources */,
-				CCD8FE732E41DD2D009E3F0C /* HWSkimmerEffectBox.swift in Sources */,
 				CC80D1A92E3FCD320096268D /* HWImageSliderView.swift in Sources */,
 				CC789A452E3E29610068B48D /* HomeWorkApp.swift in Sources */,
 				CC789A542E3E30BD0068B48D /* HWNotificationRowView.swift in Sources */,
 				CC2B927B2E40B35F0082D836 /* HWNotification.swift in Sources */,
+				CC5DB3222E472DA00012018B /* HWSkimmerEffectBoxView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

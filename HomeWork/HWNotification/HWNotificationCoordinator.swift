@@ -19,10 +19,16 @@ class HWNotificationCoordinator: HWNavigationCoordinatorProtocol {
     /// 通知模組中當前顯示的全螢幕畫面
     @Published var fullScreenCover: HWBaseFullScreenCover?
     
+    @Binding var notificationList: [HWNotificationMessage]
+    
+    @Binding var isRefresh: Bool
+    
     /// Initializes the notification coordinator with navigation path binding
     /// 使用導航路徑綁定初始化通知協調器
     /// - Parameter path: Binding to the navigation path used for view stack management
-    init(path: Binding<NavigationPath>) {
+    init(notificationList: Binding<[HWNotificationMessage]>, isRefresh: Binding<Bool>, path: Binding<NavigationPath>) {
+        self._notificationList = notificationList
+        self._isRefresh = isRefresh
         self._path = path
     }
     
@@ -71,8 +77,8 @@ class HWNotificationCoordinator: HWNavigationCoordinatorProtocol {
     @ViewBuilder
     func build(_ screen: HWNotificationScreen) -> some View {
         switch screen {
-        case .home:
-            HWNotificationsView()
+        case .notificationView(let notificationList, let isRefresh):
+            HWNotificationsView(notificationList: notificationList, isRefresh: isRefresh)
         case .detail:
             HWNotificationDetailView()
         }
@@ -84,7 +90,7 @@ class HWNotificationCoordinator: HWNavigationCoordinatorProtocol {
 /// Enumeration defining navigable screens within the notification module
 /// 定義通知模組內可導航畫面的列舉
 enum HWNotificationScreen: Hashable {
-    case home
+    case notificationView(notificationList: [HWNotificationMessage], isRefresh: Bool)
     case detail(notification: HWPushMessage)
 }
 
@@ -93,7 +99,7 @@ extension HWNotificationScreen {
     /// 提供通知畫面的等值比較與雜湊運算的擴展
     static func == (lhs: HWNotificationScreen, rhs: HWNotificationScreen) -> Bool {
         switch (lhs, rhs) {
-        case (.home, .home):
+        case (.notificationView, .notificationView):
             return true
         case (.detail(let lhsNotification), .detail(let rhsNotification)):
             return lhsNotification.msgId == rhsNotification.msgId
@@ -104,8 +110,8 @@ extension HWNotificationScreen {
     
     func hash(into hasher: inout Hasher) {
         switch self {
-        case .home:
-            hasher.combine("home")
+        case .notificationView:
+            hasher.combine("notificationView")
         case .detail(let notification):
             hasher.combine("detail")
             hasher.combine(notification.msgId)

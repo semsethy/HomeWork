@@ -24,28 +24,3 @@ struct BannerList: Codable {
     }
 }
 
-
-// MARK: - Models
-struct AccountItem: Codable {
-    let account: String
-    let curr: String // USD or KHR
-    let balance: Double
-}
-
-struct SavingsResult: Codable {
-    let savingsList: [AccountItem]
-}
-
-struct FixedDepositResult: Codable {
-    let fixedDepositList: [AccountItem]
-}
-
-struct DigitalAccountResult: Codable {
-    let digitalAccountList: [AccountItem]
-}
-
-
-
-struct DigitalListResult: Decodable {
-    let digitalList: [AccountItem]
-}

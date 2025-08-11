@@ -9,10 +9,16 @@ import SwiftUI
 
 class HWHomeCoordinator: HWNavigationCoordinatorProtocol {
     
+    static let shared = HWHomeCoordinator()
     /// Navigation path for stack navigation
     @Published var path: NavigationPath = NavigationPath()
     /// Sheet presentation state
     @Published var sheet: HWBaseSheet?
+    
+    @Published var notificationArray: [HWNotificationMessage] = []
+    
+    @Published var isRefresh: Bool = false
+    
     
     // MARK: - Navigation Actions
     /// Push a new screen onto the navigation stack
@@ -37,8 +43,8 @@ class HWHomeCoordinator: HWNavigationCoordinatorProtocol {
             HWHomeView()
         case .userProfileView(path: let path):
             HWUserProfileCoordinatorView(path: path)
-        case .notificationsView(path: let path):
-            HWNotificationCoordinatorView(path: path)
+        case .notificationsView(let notificationList,let isRefresh, let path):
+            HWNotificationCoordinatorView(notificationList: notificationList, isRefresh: isRefresh, path: path)
         }
     }
 }
@@ -48,10 +54,10 @@ class HWHomeCoordinator: HWNavigationCoordinatorProtocol {
 enum HWHomeScreen: Hashable {
     /// Home main screen
     case home
-    /// User Profile record view
+    /// User Profile view
     case userProfileView(path: Binding<NavigationPath>)
-    /// Notifications record view
-    case notificationsView(path: Binding<NavigationPath>)
+    /// Notifications view
+    case notificationsView(notificationList: Binding<[HWNotificationMessage]>, isRefresh: Binding<Bool>, path: Binding<NavigationPath>)
 }
 
 extension HWHomeScreen {

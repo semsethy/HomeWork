@@ -9,9 +9,14 @@ import SwiftUI
 
 struct HWNotificationsView: View {
     
-    @StateObject private var viewModel = HWNotificationsViewModel.shared
+    @StateObject private var viewModel: HWNotificationsViewModel
     
     @EnvironmentObject private var notificationCoordinator: HWNotificationCoordinator
+    
+    init(notificationList: [HWNotificationMessage], isRefresh: Bool){
+        let viewModel = HWNotificationsViewModel(notificationList: notificationList, isRefresh: isRefresh)
+        self._viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -33,14 +38,8 @@ struct HWNotificationsView: View {
                 }
             }
         }
-        .task{
-            // Only fetch if notification list is empty or retry state
-            if viewModel.notification.isEmpty || viewModel.listType == .retry {
-                await viewModel.fetchNonEmptyNotification()
-            }
-        }
         .onAppear {
-            viewModel.hasNotification = false
+            viewModel.fetchNotification()
         }
         .onDisappear {
             self.viewModel.cancellables.removeAll()
@@ -128,7 +127,7 @@ struct HWNotificationsView: View {
     /// Normal view displaying grouped notifications with section headers
     private func normalView() -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            ForEach(viewModel.notification, id: \.id) { item in
+            ForEach(viewModel.notificationList, id: \.id) { item in
                 HWNotificationRowView(item: item)
             }
             .background(Color.white)
@@ -149,7 +148,7 @@ struct HWNotificationsView: View {
     }
 }
 
-#Preview {
-    HWNotificationsView()
-}
+//#Preview {
+//    HWNotificationsView(notificationList: <#[HWNotificationMessage]#>)
+//}
 
