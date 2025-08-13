@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HWNotificationRowView: View {
     
-    var item: HWNotificationMessage
+    @Binding var item: HWNotificationMessage
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) { 
@@ -22,7 +22,6 @@ struct HWNotificationRowView: View {
                     .multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)
                 
-
                 if item.status {
                     Circle()
                         .fill(Color(red: 251.0 / 255.0, green: 108.0 / 255.0, blue: 72.0 / 255.0))
@@ -31,7 +30,7 @@ struct HWNotificationRowView: View {
                 }
             }
             
-            Text(item.updateDateTime)
+            Text(normalizeDateString(item.updateDateTime))
                 .font(.caption)
                 .foregroundColor(Color.black)
                 .dynamicTypeSize(.xSmall...DynamicTypeSize.xxxLarge)
@@ -47,6 +46,30 @@ struct HWNotificationRowView: View {
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
+    
+    func normalizeDateString(_ dateString: String) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(identifier: "Asia/Phnom_Penh")
+        
+        // Possible input formats from API
+        let possibleFormats = [
+            "yyyy/MM/dd HH:mm:ss",
+            "HH:mm:ss yyyy/MM/dd"
+        ]
+        
+        for format in possibleFormats {
+            formatter.dateFormat = format
+            if let date = formatter.date(from: dateString) {
+                // Output in your preferred format
+                formatter.dateFormat = "dd/MM/yyyy HH:mm:ss"
+                return formatter.string(from: date)
+            }
+        }
+        
+        return dateString
+    }
+
 }
 
 

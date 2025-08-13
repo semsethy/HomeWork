@@ -17,6 +17,12 @@ class HWLog {
         Logger().debug("\(String(describing: object))")
         #endif
     }
-    
+    /// Info-level log
+    /// 信息級別日誌
+    class public func infoPrint(_ object: Any) {
+        #if DEV
+        Logger().info("\(String(describing: object))")
+        #endif
+    }
 
 }

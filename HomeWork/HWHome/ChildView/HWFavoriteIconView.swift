@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HWFavoriteIconView: View {
     
-    var item: FavoriteDisplayItem
+    @Binding var item: FavoriteDisplayItem
     
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
@@ -25,12 +25,12 @@ struct HWFavoriteIconView: View {
                 .dynamicTypeSize(.xSmall...DynamicTypeSize.xxxLarge)
                 .minimumScaleFactor(0.2)
                 .lineLimit(1)
-                .foregroundStyle(.primary)
+                .foregroundStyle(.black)
         }
         .frame(height: 100)
     }
 }
 
 #Preview {
-    HWFavoriteIconView(item: .init(type: .creditCard, nickname: "hi"))
+    HWFavoriteIconView(item: .constant(.init(type: .creditCard, nickname: "Andy")))
 }

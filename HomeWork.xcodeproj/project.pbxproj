@@ -42,6 +42,8 @@
 		CC80D1B22E3FD1EB0096268D /* HWBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D1B12E3FD1EB0096268D /* HWBanner.swift */; };
 		CC80D1B42E3FD68D0096268D /* HWTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D1B32E3FD68D0096268D /* HWTabBar.swift */; };
 		CCBCE3D22E423CB10098D57A /* HWEndpointModel+EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCBCE3D12E423CB00098D57A /* HWEndpointModel+EndPoint.swift */; };
+		DC6C98652E4AEA270078EF53 /* HWMessageCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6C98642E4AEA270078EF53 /* HWMessageCode.swift */; };
+		DC6C98672E4AEB1A0078EF53 /* HWAPIErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6C98662E4AEB1A0078EF53 /* HWAPIErrorModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +83,8 @@
 		CC80D1B12E3FD1EB0096268D /* HWBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWBanner.swift; sourceTree = "<group>"; };
 		CC80D1B32E3FD68D0096268D /* HWTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWTabBar.swift; sourceTree = "<group>"; };
 		CCBCE3D12E423CB00098D57A /* HWEndpointModel+EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HWEndpointModel+EndPoint.swift"; sourceTree = "<group>"; };
+		DC6C98642E4AEA270078EF53 /* HWMessageCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWMessageCode.swift; sourceTree = "<group>"; };
+		DC6C98662E4AEB1A0078EF53 /* HWAPIErrorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWAPIErrorModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +134,8 @@
 		CC789A202E3E29610068B48D /* APIModel */ = {
 			isa = PBXGroup;
 			children = (
+				DC6C98662E4AEB1A0078EF53 /* HWAPIErrorModel.swift */,
+				DC6C98632E4AEA230078EF53 /* Error */,
 				CCBCE3D12E423CB00098D57A /* HWEndpointModel+EndPoint.swift */,
 				CC80D1AA2E3FCF070096268D /* HWAPIBaseModel.swift */,
 				CC80D1352E3FC83F0096268D /* HWEndpointModel.swift */,
@@ -368,6 +374,14 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		DC6C98632E4AEA230078EF53 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				DC6C98642E4AEA270078EF53 /* HWMessageCode.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -464,7 +478,9 @@
 				CC789A412E3E29610068B48D /* HWHomeCoordinator.swift in Sources */,
 				CC789A422E3E29610068B48D /* HWHomeCoordinatorView.swift in Sources */,
 				CC80D1342E3FC78C0096268D /* HWNetworkManager.swift in Sources */,
+				DC6C98672E4AEB1A0078EF53 /* HWAPIErrorModel.swift in Sources */,
 				CC80D1AB2E3FCF0B0096268D /* HWAPIBaseModel.swift in Sources */,
+				DC6C98652E4AEA270078EF53 /* HWMessageCode.swift in Sources */,
 				CC80D0072E3F365F0096268D /* HWHomeView.swift in Sources */,
 				CC789A442E3E29610068B48D /* ContentView.swift in Sources */,
 				CC80D00E2E3F46D60096268D /* HWUserProfileCoordinatorView.swift in Sources */,
@@ -608,7 +624,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 53V595L4ZZ;
+				DEVELOPMENT_TEAM = Y9LK8D9XX5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -637,7 +653,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 53V595L4ZZ;
+				DEVELOPMENT_TEAM = Y9LK8D9XX5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

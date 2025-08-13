@@ -35,5 +35,5 @@ struct HWServiceIconView: View {
 }
 
 #Preview {
-    HWServiceIconView(serviceItem: HWServiceItems(icon: "ic_cubc_mbanking", title: "CUBC"))
+    HWServiceIconView(serviceItem: HWServiceItems(icon: "button00ElementMenuPayment", title: "Payment"))
 }

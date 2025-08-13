@@ -9,7 +9,6 @@ import SwiftUI
 
 class HWHomeCoordinator: HWNavigationCoordinatorProtocol {
     
-    static let shared = HWHomeCoordinator()
     /// Navigation path for stack navigation
     @Published var path: NavigationPath = NavigationPath()
     /// Sheet presentation state
@@ -19,15 +18,10 @@ class HWHomeCoordinator: HWNavigationCoordinatorProtocol {
     
     @Published var isRefresh: Bool = false
     
-    
     // MARK: - Navigation Actions
     /// Push a new screen onto the navigation stack
     func push(_ screen: HWHomeScreen) {
         self.path.append(screen)
-    }
-    /// Dismiss the sheet
-    func dismissSheet() {
-        self.sheet = nil
     }
     
     deinit {

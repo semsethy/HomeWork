@@ -19,23 +19,23 @@ enum HWNotificationListType {
 // MARK: - HWNotificationsViewModel
 class HWNotificationsViewModel: ObservableObject {
     
-    // MARK: - Published Properties
+    /// MARK: - Published Properties
     @Published var notificationList: [HWNotificationMessage]
     @Published var isRefresh: Bool
     @Published var showNavBarBackground: Bool = true
     @Published var listType: HWNotificationListType = .loading
     
-    // MARK: - Private Properties
+    /// MARK: - Private Properties
     private var rawScrollOffset: CGFloat = 60
     var cancellables = Set<AnyCancellable>()
     
-    // MARK: - Initializer
+    /// MARK: - Initializer
     init(notificationList: [HWNotificationMessage], isRefresh: Bool) {
         self.notificationList = notificationList
         self.isRefresh = isRefresh
     }
     
-    // MARK: - Scroll Offset Handler
+    /// MARK: - Scroll Offset Handler
     func updateScrollOffset(_ newValue: CGFloat) {
         let previouslyShowingBackground = self.rawScrollOffset < 50
         let shouldShowBackground = newValue < 50
@@ -45,7 +45,7 @@ class HWNotificationsViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Call from Home Refresh
+    /// MARK: - Call from Home Refresh
     func fetchNotification() {
         let endpoint: HWEndpointModel = isRefresh ? .nonEmptyNotification : .emptyNotification
         self.fetchNotification(from: endpoint) { result in

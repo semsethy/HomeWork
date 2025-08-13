@@ -19,23 +19,23 @@ struct HWNotificationsView: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
-            ZStack(alignment: .top) {
+        ZStack(alignment: .top) {
+            GeometryReader { geometry in
                 // 背景圖片
                 self.backgroundView()
                 
                 // nav bar 上面的狀態欄白色背景
                 self.statusBarBackground(geometry: geometry)
-                
-                VStack(spacing: 0) {
-                    // NavigationBar
-                    self.customNavigationBar()
-                
-                    self.mainContentView()
-                }
-                .onPreferenceChange(MCScrollOffsetPreferenceKey.self) { value in
-                    self.handleScrollOffset(value)
-                }
+            }
+            
+            VStack(spacing: 0) {
+                // NavigationBar
+                self.customNavigationBar()
+            
+                self.mainContentView()
+            }
+            .onPreferenceChange(MCScrollOffsetPreferenceKey.self) { value in
+                self.handleScrollOffset(value)
             }
         }
         .onAppear {
@@ -127,7 +127,7 @@ struct HWNotificationsView: View {
     /// Normal view displaying grouped notifications with section headers
     private func normalView() -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            ForEach(viewModel.notificationList, id: \.id) { item in
+            ForEach($viewModel.notificationList, id: \.id) { item in
                 HWNotificationRowView(item: item)
             }
             .background(Color.white)

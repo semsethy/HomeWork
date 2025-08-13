@@ -17,8 +17,6 @@ struct HWToolBar: View {
     /// Notification action handler
     var onNotificationAction: (() -> Void)?
     
-    var useRefreshData: Bool = false
-    
     @Binding var hasNotification: Bool
     
     // MARK: - Body
@@ -46,7 +44,6 @@ struct HWToolBar: View {
             /// Trailing button for toolbar ( notification.)
             Button(action: {
                 self.onNotificationAction?()
-                self.hasNotification = false
             }) {
                 ZStack(alignment: .topTrailing) {
                     Image(systemName: "bell")

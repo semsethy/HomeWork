@@ -7,22 +7,32 @@
 
 import SwiftUI
 
+/// Home screen view displaying account balances, services, favorites, and a banner image slider.
 struct HWHomeView: View {
     
-    // Home coordinator / 首頁協調器
-    @EnvironmentObject private var homeCoordinator: HWHomeCoordinator
+    // MARK: - Environment & State
     
+    @EnvironmentObject private var homeCoordinator: HWHomeCoordinator
     @StateObject private var viewModel = HWHomeViewModel()
     
     @State private var showTotalAmount: Bool = false
-    
-    @State private var isLoading: Bool = false
-    
     @State private var hasNotification: Bool = false
+    @State private var delayCompleted = false
     
-    @State private var favoriteItems: [String] = []
-     
-    let items: [HWServiceItems] = [
+    /// Loading indicator for various data fetching states
+    private var isReady: Bool {
+        !viewModel.isLoadingFavorite &&
+        !viewModel.isLoadingBanners &&
+        !viewModel.isLoadingBalance
+    }
+    
+    /// Determines if UI content should be displayed
+    private var showContent: Bool {
+        isReady && delayCompleted
+    }
+    
+    /// Predefined service menu items
+    private let serviceItems: [HWServiceItems] = [
         HWServiceItems(icon: "button00ElementMenuTransfer", title: "Transfer"),
         HWServiceItems(icon: "button00ElementMenuPayment", title: "Payment"),
         HWServiceItems(icon: "button00ElementMenuUtility", title: "Utility"),
@@ -30,140 +40,23 @@ struct HWHomeView: View {
         HWServiceItems(icon: "button00ElementMenuQRcode", title: "My QR code"),
         HWServiceItems(icon: "button00ElementMenuTopUp", title: "Top up")
     ]
-      
-    var isReady: Bool {
-        viewModel.isLoadingFavorite || viewModel.isLoadingBanners || viewModel.isLoadingBalance
-    }
-    @State private var delayCompleted = false
-    var showContent: Bool {
-        isReady && delayCompleted
-    }
+    
+    // MARK: - Body
     
     var body: some View {
         ZStack {
-            // MARK: - Background
-            ZStack {
-                Image("Bg")
-                    .resizable()
-                    .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.height)
-            }
-            .edgesIgnoringSafeArea(.all)
- 
+            backgroundView
+            
             VStack(spacing: 0) {
-                // MARK: - Toolbar
-                HWToolBar(onUserProfileAction: {
-                    self.homeCoordinator.push(.userProfileView(path: self.$homeCoordinator.path))
-                }, onNotificationAction: {
-                    self.homeCoordinator.push(.notificationsView(notificationList: self.$homeCoordinator.notificationArray, isRefresh: self.$homeCoordinator.isRefresh, path: self.$homeCoordinator.path))
-                }, hasNotification: $hasNotification)
+                toolbarSection
                 
                 VStack(spacing: 4) {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 18) {
-                            
-                            HStack {
-                                Text("My Account Balance")
-                                    .font(.headline)
-                                    .foregroundColor(.gray)
-                                
-                                Button {
-                                    showTotalAmount.toggle()
-                                } label: {
-                                    Image(systemName: showTotalAmount ? "eye" : "eye.slash")
-                                        .frame(width: 22.0, height: 15.0)
-                                        .foregroundStyle(Color(red: 251.0 / 255.0, green: 108.0 / 255.0, blue: 72.0 / 255.0))
-                                }
-                                Spacer()
-                            }
-                            
-                            VStack(alignment: .leading,spacing: 8) {
-                                Text("USD")
-                                    .font(.callout)
-                                    .foregroundColor(.black)
-                                    .multilineTextAlignment(.trailing)
-                                
-                                if !showContent {
-                                    HWSkimmerEffectBoxView()
-                                        .frame(height: 30)
-                                        .cornerRadius(4)
-                                } else {
-                                    Text(showTotalAmount ? viewModel.totalUSD.formatted(.currency(code: "USD")) : "*********")
-                                        .font(.title2)
-                                        .foregroundColor(.black)
-                                        .fontWeight(.medium)
-                                        .frame(height: 30)
-                                }
-                                
-                                Text("KHR")
-                                    .font(.callout)
-                                    .foregroundColor(.black)
-                                    .multilineTextAlignment(.trailing)
-                                
-                                if !showContent {
-                                    HWSkimmerEffectBoxView()
-                                        .frame(height: 30)
-                                        .cornerRadius(4)
-                                } else {
-                                    Text(showTotalAmount ? viewModel.totalKHR.formatted(.currency(code: "KHR")) : "*********")
-                                        .font(.title2)
-                                        .foregroundColor(.black)
-                                        .fontWeight(.medium)
-                                        .frame(height: 30)
-                                }
-                            }
-                            .opacity(0.8)
-                            
-                            LazyVGrid(columns: [GridItem(),GridItem(),GridItem()],spacing: 20) {
-                                ForEach(items.indices, id: \.self) { index in
-                                    HWServiceIconView(serviceItem: items[index])
-                                }
-                            }
-                            .padding(.bottom, 14)
-                            
-                            HStack {
-                                Text("My Favorite")
-                                    .foregroundStyle(.black)
-                                
-                                Spacer()
-                                
-                                Button {
-                                    
-                                } label: {
-                                    HStack(spacing: 4) {
-                                        Text("More")
-                                            .foregroundStyle(.black)
-                                        Image("iconArrow01Next")
-                                    }
-                                }
-                                .foregroundStyle(.primary)
-                            }
-                             
-                            if !showContent {
-                                HWSkimmerEffectBoxView()
-                                    .frame(height: 100)
-                                    .cornerRadius(10)
-                            }
-                            else if viewModel.isFavoriteEmpty {
-                                self.emptyFavoriteSection
-                                    .cornerRadius(10)
-                            } else {
-                                // MARK: - Horizontal scrollable favorite list
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 16) {
-                                        ForEach(viewModel.displayItems) { item in
-                                            HWFavoriteIconView(item: item)
-                                        }
-                                    }
-                                    .padding(.vertical, 8)
-                                }
-                            }
-                            if !showContent {
-                                HWSkimmerEffectBoxView()
-                                    .frame(height: 100)
-                                    .cornerRadius(10)
-                            } else {
-                                HWImageSliderView(currentPage: $viewModel.currentBannerIndex, banners: viewModel.banners)
-                            }
+                            accountBalanceSection
+                            serviceMenuSection
+                            favoriteSection
+                            bannerSection
                         }
                         .padding(24)
                         .padding(.bottom, 44)
@@ -171,50 +64,167 @@ struct HWHomeView: View {
                     .refreshable {
                         viewModel.isRefresh = true
                         homeCoordinator.isRefresh = true
-                        await viewModel.fetchFavoriteList()
-                        await viewModel.fetchBanners()
-                        await viewModel.fetchSumAccountsCurrency()
-                        self.hasNotification = true
+                        hasNotification = true
+                        try? await viewModel.fetchFavoriteList()
+                         viewModel.fetchBanners()
+                        try? await viewModel.fetchSumAccountsCurrency()
                     }
                 }
             }
             .task {
-                // Start 3s timer in parallel
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     withAnimation(.easeInOut(duration: 0.3)) {
                         delayCompleted = true
                     }
                 }
-                await viewModel.fetchFavoriteList()
-                await viewModel.fetchBanners()
-                await viewModel.fetchSumAccountsCurrency()
+                try? await viewModel.fetchFavoriteList()
+                viewModel.fetchBanners()
+                try? await viewModel.fetchSumAccountsCurrency()
             }
         }
     }
-     
-    /// Loading section view
-    private var loadingTypeSection: some View {
-        VStack(spacing: 8) {
-            Rectangle()
-                .foregroundStyle(Color.gray200)
-                .cornerRadius(3)
+}
+
+// MARK: - Subviews
+private extension HWHomeView {
+    
+    /// Full-screen background image
+    var backgroundView: some View {
+        Image("Bg")
+            .resizable()
+            .frame(maxWidth: UIScreen.main.bounds.width,
+                   maxHeight: UIScreen.main.bounds.height)
+            .edgesIgnoringSafeArea(.all)
+    }
+    
+    /// Top toolbar with profile and notification buttons
+    var toolbarSection: some View {
+        HWToolBar(
+            onUserProfileAction: {
+                homeCoordinator.push(.userProfileView(path: $homeCoordinator.path))
+            },
+            onNotificationAction: {
+                homeCoordinator.push(.notificationsView(
+                    notificationList: $homeCoordinator.notificationArray,
+                    isRefresh: $homeCoordinator.isRefresh,
+                    path: $homeCoordinator.path
+                ))
+            },
+            hasNotification: $hasNotification
+        )
+    }
+    
+    /// Account balance display with show/hide toggle
+    var accountBalanceSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            balanceTitleRow
+            currencyRow(code: "USD", amount: viewModel.totalUSD)
+            currencyRow(code: "KHR", amount: viewModel.totalKHR)
+        }
+        .opacity(0.8)
+    }
+    
+    /// "My Account Balance" header row
+    var balanceTitleRow: some View {
+        HStack {
+            Text("My Account Balance")
+                .font(.headline)
+                .foregroundColor(.gray)
+            
+            Button {
+                showTotalAmount.toggle()
+            } label: {
+                Image(systemName: showTotalAmount ? "eye" : "eye.slash")
+                    .frame(width: 22, height: 15)
+                    .foregroundStyle(Color(red: 251/255, green: 108/255, blue: 72/255))
+            }
+            Spacer()
         }
     }
     
-    /// Empty favorite view
-    private var emptyFavoriteSection: some View {
+    /// Currency row with loading placeholder or actual value
+    func currencyRow(code: String, amount: Decimal) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(code)
+                .font(.callout)
+                .foregroundColor(.black)
+            
+            if !showContent {
+                HWSkimmerEffectBoxView()
+                    .frame(height: 30)
+                    .cornerRadius(4)
+            } else {
+                Text(showTotalAmount ? amount.formatted(.currency(code: code)) : "*********")
+                    .font(.title2)
+                    .foregroundColor(.black)
+                    .fontWeight(.medium)
+                    .frame(height: 30)
+            }
+        }
+    }
+    
+    /// Service menu grid
+    var serviceMenuSection: some View {
+        LazyVGrid(columns: [GridItem(), GridItem(), GridItem()], spacing: 20) {
+            ForEach(serviceItems.indices, id: \.self) { index in
+                HWServiceIconView(serviceItem: serviceItems[index])
+            }
+        }
+        .padding(.bottom, 14)
+    }
+    
+    /// Favorite section (loading, empty, or list)
+    var favoriteSection: some View {
+        VStack(spacing: 0) {
+            sectionHeader(title: "My Favorite", actionTitle: "More") {
+                // Action for "More"
+            }
+            
+            if !showContent {
+                placeholderBox(height: 100)
+            }
+            else if viewModel.isFavoriteEmpty {
+                emptyFavoriteSection
+            }
+            else {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 16) {
+                        ForEach($viewModel.displayItems) { item in
+                            HWFavoriteIconView(item: item)
+                        }
+                    }
+                    .padding(.vertical, 8)
+                }
+            }
+        }
+    }
+    
+    /// Banner image slider section
+    var bannerSection: some View {
+        VStack(spacing: 0) {
+            if !showContent {
+                placeholderBox(height: 100)
+            } else {
+                HWImageSliderView(
+                    currentPage: $viewModel.currentBannerIndex,
+                    images: viewModel.bannerImages
+                )
+            }
+        }
+    }
+    
+    /// "Empty favorites" placeholder
+    var emptyFavoriteSection: some View {
         ZStack {
             Rectangle()
-                .fill(Color.gray200).opacity(0.4)
-                .frame(maxWidth: .infinity)
+                .fill(Color.gray200.opacity(0.4))
                 .frame(height: 100)
-            HStack{
-                
+            
+            HStack {
                 Spacer()
                 Image("button00ElementScrollEmpty")
                     .resizable()
                     .frame(width: 54, height: 54)
-                
                 Spacer()
                 
                 VStack(alignment: .leading) {
@@ -225,17 +235,39 @@ struct HWHomeView: View {
                 Spacer()
             }
         }
+        .cornerRadius(10)
     }
 }
- 
+
+// MARK: - UI Helpers
+private extension HWHomeView {
+    
+    func sectionHeader(title: String, actionTitle: String, action: @escaping () -> Void) -> some View {
+        HStack {
+            Text(title)
+                .foregroundStyle(.black)
+            
+            Spacer()
+            
+            Button(action: action) {
+                HStack(spacing: 4) {
+                    Text(actionTitle)
+                        .foregroundStyle(.black)
+                    Image("iconArrow01Next")
+                }
+            }
+            .foregroundStyle(.primary)
+        }
+    }
+    
+    func placeholderBox(height: CGFloat) -> some View {
+        HWSkimmerEffectBoxView()
+            .frame(height: height)
+            .cornerRadius(10)
+    }
+}
+
+// MARK: - Preview
 #Preview {
     CustomTabMainView()
 }
-     
-     
-    
-     
-   
-  
- 
-  

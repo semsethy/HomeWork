@@ -7,16 +7,20 @@
 
 import Foundation
 import Combine
+import UIKit
 
 // MARK: - Transaction Type Enum
 /// Represents the types of transactions available in the app.
+///
+/// Each case corresponds to a transaction category supported by the bank,
+/// along with its associated icon resource name.
 enum TransType: String, Equatable, Decodable {
     case cubc = "CUBC"
     case mobile = "Mobile"
     case pmf = "PMF"
     case creditCard = "CreditCard"
     
-    /// Corresponding icon asset name for each transaction type.
+    /// Icon asset name associated with the transaction type.
     var icon: String {
         switch self {
         case .cubc: return "button00ElementScrollTree"
@@ -28,19 +32,19 @@ enum TransType: String, Equatable, Decodable {
 }
 
 // MARK: - Account List Type Enum
-/// Defines different types of bank accounts.
+/// Defines categories of bank accounts supported by the system.
 enum AccountListType {
     case savings, fixed, digital
 }
 
 // MARK: - API Response Model for Account Balances
-/// Represents the grouped result of various account lists returned by the API.
+/// Represents the grouped account list response from the API.
 struct AccountListResult: Decodable {
     let savingsList: [AccountItem]?
     let fixedDepositList: [AccountItem]?
     let digitalList: [AccountItem]?
 
-    /// Returns the account list based on the requested account type.
+    /// Returns the corresponding list based on the requested account type.
     func list(for type: AccountListType) -> [AccountItem] {
         switch type {
         case .savings: return savingsList ?? []
@@ -51,121 +55,203 @@ struct AccountListResult: Decodable {
 }
 
 // MARK: - ViewModel for Home Screen
-/// Manages the state and business logic of the Home screen.
+/// Manages the state, data fetching, and business logic for the Home screen.
+///
+/// This view model:
+/// - Loads banners and preloads images before showing the slider.
+/// - Fetches favorite transactions and maps them to display models.
+/// - Calculates total balances in USD and KHR across multiple account types.
 class HWHomeViewModel: ObservableObject {
     
     // MARK: - Published Properties (UI Binding)
     
-    /// List of banners shown in the image slider.
+    /// List of banner metadata retrieved from API.
     @Published var banners: [BannerList] = []
     
-    /// Index of the currently displayed banner.
+    /// Preloaded banner images for the slider.
+    ///
+    /// These are fully downloaded before being displayed to avoid delays during sliding.
+    @Published var bannerImages: [UIImage] = []
+
+    /// Current index of the banner being displayed in the slider.
     @Published var currentBannerIndex: Int = 0
     
-    /// Raw favorite items received from API.
+    /// Raw favorite transaction items fetched from API.
     @Published var favoriteItems: [HWFavoriteItem] = []
     
-    /// Display model for favorite items (mapped with icons).
+    /// Favorite items mapped to display models containing icons and names.
     @Published var displayItems: [FavoriteDisplayItem] = []
     
-    /// Total amount in USD.
-    @Published var totalUSD: Double = 0.0
+    /// Aggregated total balance in USD.
+    @Published var totalUSD: Decimal = 0.0
     
-    /// Total amount in KHR.
-    @Published var totalKHR: Double = 0.0
+    /// Aggregated total balance in KHR.
+    @Published var totalKHR: Decimal = 0.0
     
-    /// Flag indicating whether to use refreshed data from API.
+    /// Flag indicating whether to call refresh-specific endpoints.
     @Published var isRefresh: Bool = false
     
-    /// Loading indicators for each section.
-    @Published var isLoadingFavorite = true
-    @Published var isLoadingBanners = true
-    @Published var isLoadingBalance = true
+    /// Loading state for the favorites section.
+    @Published var isLoadingFavorite = false
+    
+    /// Loading state for the banners section.
+    @Published var isLoadingBanners = false
+    
+    /// Loading state for the account balance section.
+    @Published var isLoadingBalance = false
 
-    /// Combine subscriptions storage.
+    /// Stores active Combine subscriptions for cancellation.
     private var cancellables = Set<AnyCancellable>()
     
-    /// Whether the favorite list is empty (used for UI).
+    /// Indicates if the favorite list is empty.
     var isFavoriteEmpty: Bool {
         return displayItems.isEmpty
     }
 
     // MARK: - Public Methods
-    /// Fetches the favorite list from API and updates display items.
-    @MainActor //ensures that published values are updated on the main thread.
-    func fetchFavoriteList() async {
-        isLoadingFavorite = true
+    
+    /// Fetches the favorite transaction list from the API.
+    ///
+    /// - Uses `isRefresh` flag to decide which endpoint to call.
+    /// - Updates `favoriteItems` and `displayItems` accordingly.
+    @MainActor
+    func fetchFavoriteList() async throws {
+        self.isLoadingFavorite = true
+        defer { self.isLoadingFavorite = false }
         let endpoint = isRefresh ? HWEndpointModel.nonEmptyFavoriteList : HWEndpointModel.emptyFavoriteList
-        await fetchFavorite(from: endpoint)
+        try? await fetchFavorite(from: endpoint)
     }
     
-    /// Fetches and calculates the total balance in USD and KHR across all accounts.
-    @MainActor //ensures that published values are updated on the main thread.
-    func fetchSumAccountsCurrency() async {
-        isLoadingBalance = true
-
-        let endpoints: [(HWEndpointModel, AccountListType)] = [
-            (isRefresh ? .refreshKhrSavings : .khrSavings, .savings),
-            (isRefresh ? .refreshUsdSavings : .usdSavings, .savings),
-            (isRefresh ? .refreshKhrFixedDeposits : .khrFixedDeposits, .fixed),
-            (isRefresh ? .refreshUsdFixedDeposits : .usdFixedDeposits, .fixed),
-            (isRefresh ? .refreshKhrDigitalAccounts : .khrDigitalAccounts, .digital),
-            (isRefresh ? .refreshUsdDigitalAccounts : .usdDigitalAccounts, .digital)
-        ]
-
-        var allUSD: Double = 0.0
-        var allKHR: Double = 0.0
-
-        // Run all fetches in parallel using TaskGroup
-        await withTaskGroup(of: (usd: Double, khr: Double).self) { group in
-            for (endpoint, type) in endpoints {
-                group.addTask {
-                    await self.fetchBalanceResult(endpoint: endpoint, listType: type)
-                }
-            }
-
-            for await result in group {
-                allUSD += result.usd
-                allKHR += result.khr
-            }
+    /// Fetches all account balances and calculates total amounts in USD and KHR.
+    ///
+    /// - Uses a `TaskGroup` to run all account type requests in parallel.
+    /// - Updates `totalUSD` and `totalKHR` after aggregation.
+    @MainActor
+    func fetchSumAccountsCurrency() async throws {
+        self.isLoadingBalance = true
+        defer { self.isLoadingBalance = false }
+        
+        // Launch all requests in parallel
+        async let khrSavings = fetchBalanceResult(endpoint: isRefresh ? .refreshKhrSavings : .khrSavings, listType: .savings)
+        async let usdSavings = fetchBalanceResult(endpoint: isRefresh ? .refreshUsdSavings : .usdSavings, listType: .savings)
+        async let khrFixedDeposits = fetchBalanceResult(endpoint: isRefresh ? .refreshKhrFixedDeposits : .khrFixedDeposits, listType: .fixed)
+        async let usdFixedDeposits = fetchBalanceResult(endpoint: isRefresh ? .refreshUsdFixedDeposits : .usdFixedDeposits, listType: .fixed)
+        async let khrDigitalAccounts = fetchBalanceResult(endpoint: isRefresh ? .refreshKhrDigitalAccounts : .khrDigitalAccounts, listType: .digital)
+        async let usdDigitalAccounts = fetchBalanceResult(endpoint: isRefresh ? .refreshUsdDigitalAccounts : .usdDigitalAccounts, listType: .digital)
+        
+        let results = try await [khrSavings, usdSavings, khrFixedDeposits, usdFixedDeposits, khrDigitalAccounts, usdDigitalAccounts]
+        
+        // Sum totals
+        self.totalUSD = results.reduce(0) { $0 + $1.usd }
+        self.totalKHR = results.reduce(0) { $0 + $1.khr }
+    }
+    
+    /// Downloads an image from a given URL string.
+    ///
+    /// - Parameter urlString: The image URL.
+    /// - Returns: A `UIImage` if successful, otherwise `nil`.
+    private func downloadImage(from url: URL) async throws -> UIImage {
+        let (data, _) = try await URLSession.shared.data(from: url)
+        guard let image = UIImage(data: data) else {
+            throw URLError(.badServerResponse)
         }
-
-        // Update UI on main thread
-        DispatchQueue.main.async {
-            self.totalUSD = allUSD
-            self.totalKHR = allKHR
-        }
+        return image
     }
 }
 
 // MARK: - API Requests
 extension HWHomeViewModel {
 
-    /// Fetches banner images for the slider from API.
-    @MainActor //ensures that published values are updated on the main thread.
-    func fetchBanners() async {
+    /// Fetches banner list from API and preloads all images.
+    ///
+    /// This method ensures that:
+    /// 1. All image URLs are retrieved from the API.
+    /// 2. Every image is downloaded in parallel before being assigned to `bannerImages`.
+    /// 3. The slider is displayed only when all images are ready.
+//    @MainActor
+//    func fetchBanners() {
+//        isLoadingBanners = true
+//        
+//        let publisher = HWNetworkManager.shared.fetchRequest(
+//            endpoint: .banners,
+//            httpMethod: .get,
+//            model: BannerResult.self
+//        )
+//        
+//        let cancellable = publisher
+//            .receive(on: DispatchQueue.main)
+//            .sink { [weak self] completion in
+//                guard let self = self else { return }
+//                if case .failure(let error) = completion {
+//                    print("Error fetching banners:", error)
+//                    self.isLoadingBanners = false
+//                }
+//            } receiveValue: { [weak self] response in
+//                guard let self = self else { return }
+//                defer { self.isLoadingBanners = false }
+//                self.banners = response.result.bannerList
+//                
+//                Task {
+//                    var images: [UIImage] = []
+//                    
+//                    await withTaskGroup(of: UIImage?.self) { group in
+//                        for banner in response.result.bannerList {
+//                            guard let url = URL(string: banner.linkURL) else { continue }
+//                            group.addTask {
+//                                try? await self.downloadImage(from: url)
+//                            }
+//                        }
+//                        
+//                        for await image in group {
+//                            if let img = image {
+//                                images.append(img)
+//                            }
+//                        }
+//                    }
+//                    self.bannerImages = images
+//                    self.isLoadingBanners = false
+//                }
+//            }
+//        
+//        HWNetworkManager.shared.addCancellable(cancellable: cancellable)
+//    }
+    @MainActor
+    func fetchBanners() {
         isLoadingBanners = true
+        Task { [weak self] in
+            guard let self else { return }
+            defer { self.isLoadingBanners = false }
 
-        let publisher = HWNetworkManager.shared.fetchRequest(
-            endpoint: HWEndpointModel.banners,
-            httpMethod: .get,
-            model: BannerResult.self
-        )
+            do {
+                // If you have an async wrapper, call that instead of Combine:
+                let response: BannerResult = try await HWNetworkManager.shared.fetchRequestAsync(endpoint: HWEndpointModel.banners, model: BannerResult.self)
 
-        let cancellable = publisher
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                if case .failure(let error) = completion {
-                    print("Error fetching banners:", error)
+                let urls = response.bannerList.compactMap { URL(string: $0.linkURL) }
+
+                let images: [UIImage] = try await withThrowingTaskGroup(of: UIImage?.self) { group in
+                    for url in urls {
+                        group.addTask { try? await self.downloadImage(from: url) }
+                    }
+
+                    var collected: [UIImage] = []
+                    for try await img in group {
+                        if let img { collected.append(img) }
+                    }
+                    return collected
                 }
-            } receiveValue: { [weak self] response in
-                self?.banners = response.result.bannerList
-            }
-        HWNetworkManager.shared.addCancellable(cancellable: cancellable)
-    }
 
-    /// Fetches favorite list data and maps to display model.
-    func fetchFavorite(from endpoint: HWEndpointModel) async {
+                self.bannerImages = images
+            } catch {
+                print("Error fetching banners or images:", error)
+                self.bannerImages = []
+            }
+        }
+    }
+    
+    /// Fetches favorite list data from API and maps them to display models.
+    ///
+    /// - Parameter endpoint: The API endpoint to call.
+    func fetchFavorite(from endpoint: HWEndpointModel) async throws {
         let publisher = HWNetworkManager.shared.fetchRequest(
             endpoint: endpoint,
             httpMethod: .get,
@@ -179,8 +265,9 @@ extension HWHomeViewModel {
                     print("Error fetching favorites:", error)
                 }
             } receiveValue: { [weak self] response in
-                self?.favoriteItems = response.result.favoriteList
-                self?.displayItems = response.result.favoriteList.compactMap { item in
+                guard let self else { return }
+                self.favoriteItems = response.result.favoriteList
+                self.displayItems = response.result.favoriteList.compactMap { item in
                     guard let type = TransType(rawValue: item.transType) else { return nil }
                     return FavoriteDisplayItem(type: type, nickname: item.nickname)
                 }
@@ -188,8 +275,13 @@ extension HWHomeViewModel {
         HWNetworkManager.shared.addCancellable(cancellable: cancellable)
     }
 
-    /// Fetches account balances from API and calculates sum in USD and KHR.
-    private func fetchBalanceResult(endpoint: HWEndpointModel, listType: AccountListType) async -> (usd: Double, khr: Double) {
+    /// Fetches account balances for a given account type and endpoint.
+    ///
+    /// - Parameters:
+    ///   - endpoint: API endpoint to fetch balances.
+    ///   - listType: Account category to filter results.
+    /// - Returns: Tuple containing `(usd, khr)` balances.
+    private func fetchBalanceResult(endpoint: HWEndpointModel, listType: AccountListType) async throws -> (usd: Decimal, khr: Decimal) {
         await withCheckedContinuation { continuation in
             let publisher = HWNetworkManager.shared.fetchRequest(
                 endpoint: endpoint,
@@ -206,8 +298,8 @@ extension HWHomeViewModel {
                     }
                 } receiveValue: { response in
                     let list = response.result.list(for: listType)
-                    let usdSum = list.filter { $0.curr.uppercased() == "USD" }.reduce(0.0) { $0 + $1.balance }
-                    let khrSum = list.filter { $0.curr.uppercased() == "KHR" }.reduce(0.0) { $0 + $1.balance }
+                    let usdSum = list.filter { $0.curr.uppercased() == "USD" }.reduce(Decimal(0)) { $0 + Decimal($1.balance) }
+                    let khrSum = list.filter { $0.curr.uppercased() == "KHR" }.reduce(Decimal(0)) { $0 + Decimal($1.balance) }
                     continuation.resume(returning: (usdSum, khrSum))
                 }
             HWNetworkManager.shared.addCancellable(cancellable: cancellable)
