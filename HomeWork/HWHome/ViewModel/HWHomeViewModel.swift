@@ -115,11 +115,11 @@ class HWHomeViewModel: ObservableObject {
     /// - Uses `isRefresh` flag to decide which endpoint to call.
     /// - Updates `favoriteItems` and `displayItems` accordingly.
     @MainActor
-    func fetchFavoriteList() async throws {
+    func fetchFavoriteList() async {
         self.isLoadingFavorite = true
         defer { self.isLoadingFavorite = false }
         let endpoint = isRefresh ? HWEndpointModel.nonEmptyFavoriteList : HWEndpointModel.emptyFavoriteList
-        try? await fetchFavorite(from: endpoint)
+        await self.fetchFavorite(from: endpoint)
     }
     
     /// Fetches all account balances and calculates total amounts in USD and KHR.
@@ -168,53 +168,7 @@ extension HWHomeViewModel {
     /// 1. All image URLs are retrieved from the API.
     /// 2. Every image is downloaded in parallel before being assigned to `bannerImages`.
     /// 3. The slider is displayed only when all images are ready.
-//    @MainActor
-//    func fetchBanners() {
-//        isLoadingBanners = true
-//        
-//        let publisher = HWNetworkManager.shared.fetchRequest(
-//            endpoint: .banners,
-//            httpMethod: .get,
-//            model: BannerResult.self
-//        )
-//        
-//        let cancellable = publisher
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] completion in
-//                guard let self = self else { return }
-//                if case .failure(let error) = completion {
-//                    print("Error fetching banners:", error)
-//                    self.isLoadingBanners = false
-//                }
-//            } receiveValue: { [weak self] response in
-//                guard let self = self else { return }
-//                defer { self.isLoadingBanners = false }
-//                self.banners = response.result.bannerList
-//                
-//                Task {
-//                    var images: [UIImage] = []
-//                    
-//                    await withTaskGroup(of: UIImage?.self) { group in
-//                        for banner in response.result.bannerList {
-//                            guard let url = URL(string: banner.linkURL) else { continue }
-//                            group.addTask {
-//                                try? await self.downloadImage(from: url)
-//                            }
-//                        }
-//                        
-//                        for await image in group {
-//                            if let img = image {
-//                                images.append(img)
-//                            }
-//                        }
-//                    }
-//                    self.bannerImages = images
-//                    self.isLoadingBanners = false
-//                }
-//            }
-//        
-//        HWNetworkManager.shared.addCancellable(cancellable: cancellable)
-//    }
+    
     @MainActor
     func fetchBanners() {
         isLoadingBanners = true
@@ -224,9 +178,9 @@ extension HWHomeViewModel {
 
             do {
                 // If you have an async wrapper, call that instead of Combine:
-                let response: BannerResult = try await HWNetworkManager.shared.fetchRequestAsync(endpoint: HWEndpointModel.banners, model: BannerResult.self)
+                let response: HWAPIBaseModel<BannerResult> = try await HWNetworkManager.shared.fetchRequest(endpoint: HWEndpointModel.banners, model: BannerResult.self)
 
-                let urls = response.bannerList.compactMap { URL(string: $0.linkURL) }
+                let urls = response.result.bannerList.compactMap { URL(string: $0.linkURL) }
 
                 let images: [UIImage] = try await withThrowingTaskGroup(of: UIImage?.self) { group in
                     for url in urls {
@@ -248,61 +202,58 @@ extension HWHomeViewModel {
         }
     }
     
-    /// Fetches favorite list data from API and maps them to display models.
-    ///
-    /// - Parameter endpoint: The API endpoint to call.
-    func fetchFavorite(from endpoint: HWEndpointModel) async throws {
-        let publisher = HWNetworkManager.shared.fetchRequest(
-            endpoint: endpoint,
-            httpMethod: .get,
-            model: HWFavoriteResult.self
-        )
-
-        let cancellable = publisher
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                if case .failure(let error) = completion {
-                    print("Error fetching favorites:", error)
-                }
-            } receiveValue: { [weak self] response in
-                guard let self else { return }
+    @MainActor
+    func fetchFavorite(from endpoint: HWEndpointModel) async {
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                let response: HWAPIBaseModel<HWFavoriteResult> = try await HWNetworkManager.shared.fetchRequest(
+                    endpoint: endpoint,
+                    httpMethod: .get,
+                    model: HWFavoriteResult.self
+                )
+                
                 self.favoriteItems = response.result.favoriteList
                 self.displayItems = response.result.favoriteList.compactMap { item in
                     guard let type = TransType(rawValue: item.transType) else { return nil }
                     return FavoriteDisplayItem(type: type, nickname: item.nickname)
                 }
+            } catch {
+                print("Error fetching favorites:", error)
+                self.favoriteItems = []
+                self.displayItems = []
             }
-        HWNetworkManager.shared.addCancellable(cancellable: cancellable)
+        }
     }
 
-    /// Fetches account balances for a given account type and endpoint.
-    ///
-    /// - Parameters:
-    ///   - endpoint: API endpoint to fetch balances.
-    ///   - listType: Account category to filter results.
-    /// - Returns: Tuple containing `(usd, khr)` balances.
-    private func fetchBalanceResult(endpoint: HWEndpointModel, listType: AccountListType) async throws -> (usd: Decimal, khr: Decimal) {
-        await withCheckedContinuation { continuation in
-            let publisher = HWNetworkManager.shared.fetchRequest(
+    private func fetchBalanceResult(
+        endpoint: HWEndpointModel,
+        listType: AccountListType
+    ) async throws -> (usd: Decimal, khr: Decimal) {
+        do {
+            let response: HWAPIBaseModel<AccountListResult> = try await HWNetworkManager.shared.fetchRequest(
                 endpoint: endpoint,
                 httpMethod: .get,
                 model: AccountListResult.self
             )
-
-            let cancellable = publisher
-                .receive(on: DispatchQueue.main)
-                .sink { completion in
-                    if case .failure(let error) = completion {
-                        print("Error fetching \(endpoint.url):", error)
-                        continuation.resume(returning: (0.0, 0.0))
-                    }
-                } receiveValue: { response in
-                    let list = response.result.list(for: listType)
-                    let usdSum = list.filter { $0.curr.uppercased() == "USD" }.reduce(Decimal(0)) { $0 + Decimal($1.balance) }
-                    let khrSum = list.filter { $0.curr.uppercased() == "KHR" }.reduce(Decimal(0)) { $0 + Decimal($1.balance) }
-                    continuation.resume(returning: (usdSum, khrSum))
+            
+            var usdSum = Decimal(0)
+            var khrSum = Decimal(0)
+            let list = response.result.list(for: listType)
+            for item in list {
+                switch item.curr.uppercased() {
+                case "USD": usdSum += Decimal(item.balance)
+                case "KHR": khrSum += Decimal(item.balance)
+                default: break
                 }
-            HWNetworkManager.shared.addCancellable(cancellable: cancellable)
+            }
+
+            return (usdSum, khrSum)
+        } catch {
+            print("Error fetching \(endpoint.url):", error)
+            return (0.0, 0.0)
         }
     }
+
 }
+

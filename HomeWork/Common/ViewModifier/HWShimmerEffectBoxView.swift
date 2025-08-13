@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HWSkimmerEffectBoxView: View {
+struct HWShimmerEffectBoxView: View {
     private var gradientColor = [
         Color(uiColor: UIColor.systemGray5),
         Color(uiColor: UIColor.systemGray6),

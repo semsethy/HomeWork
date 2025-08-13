@@ -65,8 +65,8 @@ struct HWHomeView: View {
                         viewModel.isRefresh = true
                         homeCoordinator.isRefresh = true
                         hasNotification = true
-                        try? await viewModel.fetchFavoriteList()
-                         viewModel.fetchBanners()
+                        await viewModel.fetchFavoriteList()
+                        viewModel.fetchBanners()
                         try? await viewModel.fetchSumAccountsCurrency()
                     }
                 }
@@ -77,7 +77,7 @@ struct HWHomeView: View {
                         delayCompleted = true
                     }
                 }
-                try? await viewModel.fetchFavoriteList()
+                await viewModel.fetchFavoriteList()
                 viewModel.fetchBanners()
                 try? await viewModel.fetchSumAccountsCurrency()
             }
@@ -150,7 +150,7 @@ private extension HWHomeView {
                 .foregroundColor(.black)
             
             if !showContent {
-                HWSkimmerEffectBoxView()
+                HWShimmerEffectBoxView()
                     .frame(height: 30)
                     .cornerRadius(4)
             } else {
@@ -261,7 +261,7 @@ private extension HWHomeView {
     }
     
     func placeholderBox(height: CGFloat) -> some View {
-        HWSkimmerEffectBoxView()
+        HWShimmerEffectBoxView()
             .frame(height: height)
             .cornerRadius(10)
     }

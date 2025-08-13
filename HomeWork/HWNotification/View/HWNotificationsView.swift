@@ -38,8 +38,8 @@ struct HWNotificationsView: View {
                 self.handleScrollOffset(value)
             }
         }
-        .onAppear {
-            viewModel.fetchNotification()
+        .task {
+            await viewModel.fetchNotification()
         }
         .onDisappear {
             self.viewModel.cancellables.removeAll()

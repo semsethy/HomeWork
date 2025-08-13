@@ -30,7 +30,7 @@ struct HWNotificationRowView: View {
                 }
             }
             
-            Text(normalizeDateString(item.updateDateTime))
+            Text(item.updateDateTime.normalizedDateString())
                 .font(.caption)
                 .foregroundColor(Color.black)
                 .dynamicTypeSize(.xSmall...DynamicTypeSize.xxxLarge)
@@ -46,30 +46,6 @@ struct HWNotificationRowView: View {
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
-    
-    func normalizeDateString(_ dateString: String) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = TimeZone(identifier: "Asia/Phnom_Penh")
-        
-        // Possible input formats from API
-        let possibleFormats = [
-            "yyyy/MM/dd HH:mm:ss",
-            "HH:mm:ss yyyy/MM/dd"
-        ]
-        
-        for format in possibleFormats {
-            formatter.dateFormat = format
-            if let date = formatter.date(from: dateString) {
-                // Output in your preferred format
-                formatter.dateFormat = "dd/MM/yyyy HH:mm:ss"
-                return formatter.string(from: date)
-            }
-        }
-        
-        return dateString
-    }
-
 }
 
 

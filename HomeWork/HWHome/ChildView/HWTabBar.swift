@@ -14,10 +14,6 @@ enum Tab {
 struct HWTabBar: View {
     
     @Binding var selectedTab: Tab
-    
-    @State private var qrIsShown: Bool = false
-    
-    @State private var showFailureAlert = false
 
     var body: some View {
         ZStack(alignment: .center) {
@@ -74,16 +70,16 @@ struct CustomTabMainView: View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 TabView(selection: $selectedTab) {
-                    NavigationView { HWHomeCoordinatorView() }
+                    HWHomeCoordinatorView()
                         .tag(Tab.home)
 
-                    NavigationView { View1() }
+                    View1()
                         .tag(Tab.view1)
                     
-                    NavigationView { View2() }
+                    View2()
                         .tag(Tab.view2)
                     
-                    NavigationView { View3() }
+                    View3()
                         .tag(Tab.view3)
                 }
                 .onAppear {

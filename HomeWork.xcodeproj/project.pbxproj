@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		CC185DC82E48B50A001287D3 /* HWAccountBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC185DC72E48B503001287D3 /* HWAccountBalance.swift */; };
 		CC2B927B2E40B35F0082D836 /* HWNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2B927A2E40B3570082D836 /* HWNotification.swift */; };
-		CC5DB3222E472DA00012018B /* HWSkimmerEffectBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5DB3212E472DA00012018B /* HWSkimmerEffectBoxView.swift */; };
+		CC5DB3222E472DA00012018B /* HWShimmerEffectBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5DB3212E472DA00012018B /* HWShimmerEffectBoxView.swift */; };
 		CC5DB4342E47707E0012018B /* ColorAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC5DB4332E47707E0012018B /* ColorAssets.xcassets */; };
 		CC789A402E3E29610068B48D /* HWToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A2B2E3E29610068B48D /* HWToolBar.swift */; };
 		CC789A412E3E29610068B48D /* HWHomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC789A312E3E29610068B48D /* HWHomeCoordinator.swift */; };
@@ -42,6 +42,7 @@
 		CC80D1B22E3FD1EB0096268D /* HWBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D1B12E3FD1EB0096268D /* HWBanner.swift */; };
 		CC80D1B42E3FD68D0096268D /* HWTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D1B32E3FD68D0096268D /* HWTabBar.swift */; };
 		CCBCE3D22E423CB10098D57A /* HWEndpointModel+EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCBCE3D12E423CB00098D57A /* HWEndpointModel+EndPoint.swift */; };
+		CCF65B202E4CE70700D991DC /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF65B1F2E4CE70300D991DC /* StringExtension.swift */; };
 		DC6C98652E4AEA270078EF53 /* HWMessageCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6C98642E4AEA270078EF53 /* HWMessageCode.swift */; };
 		DC6C98672E4AEB1A0078EF53 /* HWAPIErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6C98662E4AEB1A0078EF53 /* HWAPIErrorModel.swift */; };
 /* End PBXBuildFile section */
@@ -49,7 +50,7 @@
 /* Begin PBXFileReference section */
 		CC185DC72E48B503001287D3 /* HWAccountBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWAccountBalance.swift; sourceTree = "<group>"; };
 		CC2B927A2E40B3570082D836 /* HWNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWNotification.swift; sourceTree = "<group>"; };
-		CC5DB3212E472DA00012018B /* HWSkimmerEffectBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWSkimmerEffectBoxView.swift; sourceTree = "<group>"; };
+		CC5DB3212E472DA00012018B /* HWShimmerEffectBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWShimmerEffectBoxView.swift; sourceTree = "<group>"; };
 		CC5DB4332E47707E0012018B /* ColorAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ColorAssets.xcassets; sourceTree = "<group>"; };
 		CC7899CE2E3E10C20068B48D /* HomeWork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeWork.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC789A2B2E3E29610068B48D /* HWToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWToolBar.swift; sourceTree = "<group>"; };
@@ -83,6 +84,7 @@
 		CC80D1B12E3FD1EB0096268D /* HWBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWBanner.swift; sourceTree = "<group>"; };
 		CC80D1B32E3FD68D0096268D /* HWTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWTabBar.swift; sourceTree = "<group>"; };
 		CCBCE3D12E423CB00098D57A /* HWEndpointModel+EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HWEndpointModel+EndPoint.swift"; sourceTree = "<group>"; };
+		CCF65B1F2E4CE70300D991DC /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		DC6C98642E4AEA270078EF53 /* HWMessageCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWMessageCode.swift; sourceTree = "<group>"; };
 		DC6C98662E4AEB1A0078EF53 /* HWAPIErrorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HWAPIErrorModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -186,7 +188,7 @@
 		CC789A292E3E29610068B48D /* ViewModifier */ = {
 			isa = PBXGroup;
 			children = (
-				CC5DB3212E472DA00012018B /* HWSkimmerEffectBoxView.swift */,
+				CC5DB3212E472DA00012018B /* HWShimmerEffectBoxView.swift */,
 			);
 			path = ViewModifier;
 			sourceTree = "<group>";
@@ -194,6 +196,7 @@
 		CC789A2A2E3E29610068B48D /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				CCF65B1E2E4CE6F600D991DC /* Extension */,
 				CC789A202E3E29610068B48D /* APIModel */,
 				CC789A212E3E29610068B48D /* Component */,
 				CC789A222E3E29610068B48D /* Error */,
@@ -374,6 +377,14 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		CCF65B1E2E4CE6F600D991DC /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				CCF65B1F2E4CE70300D991DC /* StringExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		DC6C98632E4AEA230078EF53 /* Error */ = {
 			isa = PBXGroup;
 			children = (
@@ -468,6 +479,7 @@
 				CC80D1362E3FC8430096268D /* HWEndpointModel.swift in Sources */,
 				CC185DC82E48B50A001287D3 /* HWAccountBalance.swift in Sources */,
 				CC789A4A2E3E2D1A0068B48D /* HWNotificationCoordinatorView.swift in Sources */,
+				CCF65B202E4CE70700D991DC /* StringExtension.swift in Sources */,
 				CC789A522E3E2F870068B48D /* HWNotificationsViewModel.swift in Sources */,
 				CCBCE3D22E423CB10098D57A /* HWEndpointModel+EndPoint.swift in Sources */,
 				CC80D0B92E3F71CA0096268D /* HWFavoriteIconView.swift in Sources */,
@@ -489,7 +501,7 @@
 				CC789A452E3E29610068B48D /* HomeWorkApp.swift in Sources */,
 				CC789A542E3E30BD0068B48D /* HWNotificationRowView.swift in Sources */,
 				CC2B927B2E40B35F0082D836 /* HWNotification.swift in Sources */,
-				CC5DB3222E472DA00012018B /* HWSkimmerEffectBoxView.swift in Sources */,
+				CC5DB3222E472DA00012018B /* HWShimmerEffectBoxView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

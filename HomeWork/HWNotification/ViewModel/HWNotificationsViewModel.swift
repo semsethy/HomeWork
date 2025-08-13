@@ -44,50 +44,31 @@ class HWNotificationsViewModel: ObservableObject {
             self.showNavBarBackground = shouldShowBackground
         }
     }
-    
-    /// MARK: - Call from Home Refresh
-    func fetchNotification() {
-        let endpoint: HWEndpointModel = isRefresh ? .nonEmptyNotification : .emptyNotification
-        self.fetchNotification(from: endpoint) { result in
-            switch result {
-            case .success(let response):
-                self.notificationList = response.result.messages
-                self.listType = self.notificationList.isEmpty ? .empty : .normal
-            case .failure(let error):
-                print("Notification error: \(error)")
-                self.listType = .retry
-            }
-        }
-    }
 }
 
 // MARK: - API Request
 extension HWNotificationsViewModel {
-    private func fetchNotification(
-        from endpoint: HWEndpointModel,
-        completion: @escaping (Result<HWAPIBaseModel<HWNotificationResult>, HWError>) -> Void
-    ) {
-        let publisher = HWNetworkManager.shared.fetchRequest(
-            endpoint: endpoint,
-            httpMethod: .get,
-            model: HWNotificationResult.self
-        )
-
-        let cancellable = publisher
-            .receive(on: DispatchQueue.main)
-            .sink(
-                receiveCompletion: { receiveCompletion in
-                    switch receiveCompletion {
-                    case .failure(let error):
-                        completion(.failure(error))
-                    case .finished:
-                        break
-                    }
-                },
-                receiveValue: { response in
-                    completion(.success(response))
-                }
-            )
-        HWNetworkManager.shared.addCancellable(cancellable: cancellable)
+    // MARK: - Call from Home Refresh
+    @MainActor
+    func fetchNotification() async {
+        Task { [weak self] in
+            guard let self else { return }
+            let endpoint: HWEndpointModel = isRefresh ? .nonEmptyNotification : .emptyNotification
+            
+            do {
+                let response: HWAPIBaseModel<HWNotificationResult> =
+                try await HWNetworkManager.shared.fetchRequest(
+                    endpoint: endpoint,
+                    httpMethod: .get,
+                    model: HWNotificationResult.self
+                )
+                
+                self.notificationList = response.result.messages
+                self.listType = self.notificationList.isEmpty ? .empty : .normal
+            } catch {
+                print("Notification error:", error)
+                self.listType = .retry
+            }
+        }
     }
 }
