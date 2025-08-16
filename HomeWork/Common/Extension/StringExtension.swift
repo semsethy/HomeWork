@@ -5,13 +5,6 @@
 //  Created by JoshipTy on 13/8/25.
 //
 
-//
-//  String+DateFormatting.swift
-//  HomeWork
-//
-//  Created by JoshipTy on 13/8/25.
-//
-
 import Foundation
 
 extension String {
@@ -40,4 +33,5 @@ extension String {
         
         return self
     }
+    
 }
