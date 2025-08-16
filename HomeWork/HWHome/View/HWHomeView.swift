@@ -71,6 +71,11 @@ struct HWHomeView: View {
                     }
                 }
             }
+            .alert("Error", isPresented: $viewModel.isShowingAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(viewModel.alertMessage ?? "Unknown error")
+            }
             .task {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     withAnimation(.easeInOut(duration: 0.3)) {
