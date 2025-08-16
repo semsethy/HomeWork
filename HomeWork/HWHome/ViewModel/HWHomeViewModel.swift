@@ -99,6 +99,10 @@ class HWHomeViewModel: ObservableObject {
     
     /// Loading state for the account balance section.
     @Published var isLoadingBalance = false
+    
+    @Published var alertMessage: String?
+    
+    @Published var isShowingAlert: Bool = false
 
     /// Stores active Combine subscriptions for cancellation.
     private var cancellables = Set<AnyCancellable>()
@@ -106,6 +110,12 @@ class HWHomeViewModel: ObservableObject {
     /// Indicates if the favorite list is empty.
     var isFavoriteEmpty: Bool {
         return displayItems.isEmpty
+    }
+    
+    @MainActor
+    private func showAlert(message: String) {
+        self.alertMessage = message
+        self.isShowingAlert = true
     }
 
     // MARK: - Public Methods
@@ -196,7 +206,7 @@ extension HWHomeViewModel {
 
                 self.bannerImages = images
             } catch {
-                print("Error fetching banners or images:", error)
+                self.showAlert(message: "Failed to load banners or images. Please try again.")
                 self.bannerImages = []
             }
         }
@@ -219,7 +229,7 @@ extension HWHomeViewModel {
                     return FavoriteDisplayItem(type: type, nickname: item.nickname)
                 }
             } catch {
-                print("Error fetching favorites:", error)
+                self.showAlert(message: "Failed to load favorites. Please try again.")
                 self.favoriteItems = []
                 self.displayItems = []
             }
@@ -250,7 +260,7 @@ extension HWHomeViewModel {
 
             return (usdSum, khrSum)
         } catch {
-            print("Error fetching \(endpoint.url):", error)
+            await self.showAlert(message: "Failed to load account balance. Please try again.")
             return (0.0, 0.0)
         }
     }
