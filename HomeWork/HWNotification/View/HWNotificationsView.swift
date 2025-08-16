@@ -10,7 +10,6 @@ import SwiftUI
 struct HWNotificationsView: View {
     
     @StateObject private var viewModel: HWNotificationsViewModel
-    
     @EnvironmentObject private var notificationCoordinator: HWNotificationCoordinator
     
     init(notificationList: [HWNotificationMessage], isRefresh: Bool){
@@ -38,6 +37,11 @@ struct HWNotificationsView: View {
                 self.handleScrollOffset(value)
             }
         }
+        .alert("Error", isPresented: $viewModel.isShowingAlert, actions: {
+            Button("OK", role: .cancel){}
+        }, message: {
+            Text(viewModel.alertMessage ?? "Unknown error")
+        })
         .task {
             await viewModel.fetchNotification()
         }

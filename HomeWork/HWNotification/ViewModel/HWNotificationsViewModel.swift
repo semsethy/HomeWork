@@ -24,6 +24,8 @@ class HWNotificationsViewModel: ObservableObject {
     @Published var isRefresh: Bool
     @Published var showNavBarBackground: Bool = true
     @Published var listType: HWNotificationListType = .loading
+    @Published var alertMessage: String?
+    @Published var isShowingAlert: Bool = false
     
     /// MARK: - Private Properties
     private var rawScrollOffset: CGFloat = 60
@@ -33,6 +35,12 @@ class HWNotificationsViewModel: ObservableObject {
     init(notificationList: [HWNotificationMessage], isRefresh: Bool) {
         self.notificationList = notificationList
         self.isRefresh = isRefresh
+    }
+    
+    @MainActor
+    private func showAlert(message: String) {
+        self.alertMessage = message
+        self.isShowingAlert = true
     }
     
     /// MARK: - Scroll Offset Handler
@@ -66,7 +74,7 @@ extension HWNotificationsViewModel {
                 self.notificationList = response.result.messages
                 self.listType = self.notificationList.isEmpty ? .empty : .normal
             } catch {
-                print("Notification error:", error)
+                self.showAlert(message: "Failed to load notifications. Please try again.")
                 self.listType = .retry
             }
         }
