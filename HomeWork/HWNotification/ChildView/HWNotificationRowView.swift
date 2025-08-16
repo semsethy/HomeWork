@@ -26,7 +26,7 @@ struct HWNotificationRowView: View {
                     Circle()
                         .fill(Color(red: 251.0 / 255.0, green: 108.0 / 255.0, blue: 72.0 / 255.0))
                         .frame(width: 8, height: 8)
-                        .offset(x: -10, y: 5) // adjust this for perfect positioning
+                        .offset(x: -10, y: 5)
                 }
             }
             
