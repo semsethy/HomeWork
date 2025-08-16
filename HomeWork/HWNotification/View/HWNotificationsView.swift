@@ -38,6 +38,11 @@ struct HWNotificationsView: View {
                 self.handleScrollOffset(value)
             }
         }
+        .alert("Error", isPresented: $viewModel.isShowingAlert, actions: {
+            Button("OK", role: .cancel){}
+        }, message: {
+            Text(viewModel.alertMessage ?? "Unknown error")
+        })
         .task {
             await viewModel.fetchNotification()
         }
