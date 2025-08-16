@@ -10,7 +10,6 @@ import SwiftUI
 struct HWNotificationsView: View {
     
     @StateObject private var viewModel: HWNotificationsViewModel
-    
     @EnvironmentObject private var notificationCoordinator: HWNotificationCoordinator
     
     init(notificationList: [HWNotificationMessage], isRefresh: Bool){
