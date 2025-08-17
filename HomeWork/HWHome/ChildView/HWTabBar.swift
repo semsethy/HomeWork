@@ -63,7 +63,7 @@ struct HWTabBar: View {
     HWTabBar(selectedTab: .constant(.home))
 }
 
-struct CustomTabMainView: View {
+struct HWCustomTabMainView: View {
     @State private var selectedTab: Tab = .home
  
     var body: some View {
@@ -102,7 +102,7 @@ struct CustomTabMainView: View {
 }
 
 #Preview {
-    CustomTabMainView()
+    HWCustomTabMainView()
 }
  
 struct View1: View {

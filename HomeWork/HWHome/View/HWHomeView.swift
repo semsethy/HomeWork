@@ -274,5 +274,5 @@ private extension HWHomeView {
 
 // MARK: - Preview
 #Preview {
-    CustomTabMainView()
+    HWCustomTabMainView()
 }
