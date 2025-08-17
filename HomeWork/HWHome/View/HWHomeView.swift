@@ -86,6 +86,7 @@ struct HWHomeView: View {
             }
         }
     }
+    
 }
 
 // MARK: - Subviews
@@ -240,6 +241,7 @@ private extension HWHomeView {
         }
         .cornerRadius(10)
     }
+    
 }
 
 // MARK: - UI Helpers
@@ -268,6 +270,7 @@ private extension HWHomeView {
             .frame(height: height)
             .cornerRadius(10)
     }
+    
 }
 
 // MARK: - Preview
