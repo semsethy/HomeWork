@@ -42,7 +42,6 @@ struct HWHomeView: View {
     ]
     
     // MARK: - Body
-    
     var body: some View {
         ZStack {
             backgroundView
