@@ -11,7 +11,6 @@ import SwiftUI
 struct HWHomeView: View {
     
     // MARK: - Environment & State
-    
     @EnvironmentObject private var homeCoordinator: HWHomeCoordinator
     @StateObject private var viewModel = HWHomeViewModel()
     
